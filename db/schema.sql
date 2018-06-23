@@ -22,7 +22,7 @@ CREATE TABLE books (
 CREATE TABLE chapters (
     chapterId INTEGER AUTO_INCREMENT PRIMARY KEY,
     chapter_name VARCHAR(100) NOT NULL,
-    chapter_body VARCHAR(100) NOT NULL,
+    chapter_body TEXT NOT NULL,
     bookId INTEGER NOT NULL,
     FOREIGN KEY (bookId) REFERENCES books(bookId),
     created DATETIME NOT NULL,

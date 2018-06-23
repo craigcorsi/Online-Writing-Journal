@@ -1,0 +1,22 @@
+{
+  "name": "writing-journal",
+  "version": "1.0.0",
+  "description": "Node/Express application where users log in, write components of a creative project, and save to a database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/craigcorsi/Online-Writing-Journal.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/craigcorsi/Online-Writing-Journal/issues"
+  },
+  "homepage": "https://github.com/craigcorsi/Online-Writing-Journal#readme",
+  "dependencies": {
+    "npm": "^6.1.0"
+  }
+}
