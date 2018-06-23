@@ -18,3 +18,13 @@ CREATE TABLE books (
     created DATETIME NOT NULL,
     modified DATETIME NOT NULL
 )
+
+CREATE TABLE chapters (
+    chapterId INTEGER AUTO_INCREMENT PRIMARY KEY,
+    chapter_name VARCHAR(100) NOT NULL,
+    chapter_body VARCHAR(100) NOT NULL,
+    bookId INTEGER NOT NULL,
+    FOREIGN KEY (bookId) REFERENCES books(bookId),
+    created DATETIME NOT NULL,
+    modified DATETIME NOT NULL
+)
