@@ -11,6 +11,7 @@ module.exports = function (app, jwt, db) {
         // validate user's email and password
 
         // if successful, redirect to dashboard
+        res.redirect('/dashboard');
     });
 
     // ???
@@ -27,12 +28,11 @@ module.exports = function (app, jwt, db) {
 
 
 
-
-
     app.post('/register', function (req, res) {
         // add user information to db
 
         // redirect to '/login'
+        res.redirect('/');
     });
 
     app.post('/books', function (req, res) {
