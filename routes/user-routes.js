@@ -1,4 +1,8 @@
-module.exports = function (app, jwt) {
+module.exports = function (app, jwt, db) {
+    app.get('/', function(req, res){
+        res.render("index");
+    });
+    
     app.get('/dashboard', function(req, res) {
         // retrieve all of an author's information to populate a dashboard
     });
@@ -7,10 +11,6 @@ module.exports = function (app, jwt) {
         // validate user's email and password
 
         // if successful, redirect to dashboard
-    });
-
-    app.get('/logout', function(req, res){
-        // return to index.handlebars
     });
 
     // ???
