@@ -7,17 +7,17 @@ CREATE TABLE users (
     password VARCHAR(100) NOT NULL,
     created DATETIME NOT NULL,
     modified DATETIME NOT NULL
-)
+);
 
 CREATE TABLE books (
     bookId INTEGER AUTO_INCREMENT PRIMARY KEY,
     book_name VARCHAR(100) NOT NULL,
     book_body TEXT NOT NULL,
-    userId NOT NULL,
+    userId INTEGER NOT NULL,
     FOREIGN KEY (userId) REFERENCES users(userId),
     created DATETIME NOT NULL,
     modified DATETIME NOT NULL
-)
+);
 
 CREATE TABLE chapters (
     chapterId INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -27,4 +27,4 @@ CREATE TABLE chapters (
     FOREIGN KEY (bookId) REFERENCES books(bookId),
     created DATETIME NOT NULL,
     modified DATETIME NOT NULL
-)
+);
