@@ -4,7 +4,7 @@ module.exports = function (app, jwt, db) {
     });
     
     app.get('/dashboard', function(req, res) {
-        // retrieve all of an author's information to populate a dashboard
+        res.render("dashboard");
     });
 
     app.get('/login', function(req, res){
@@ -15,10 +15,11 @@ module.exports = function (app, jwt, db) {
 
     // ???
     app.get('/books/:book', function(req, res) {
-        // load the chapters from the book.
+        res.render("chapterselect");
     });
 
     app.get('/books/:book/:chapter', function(req, res) {
+        res.render("editchapter");
         // load the text currently written to the chapter
 
         // create textarea, populate with the current chapter text
