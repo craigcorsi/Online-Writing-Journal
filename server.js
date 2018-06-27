@@ -6,7 +6,7 @@
 // =============================================================
 var express = require("express");
 var bodyParser = require("body-parser");
-var jwt = require('jsonwebtoken')
+var jwt = require('jsonwebtoken');
 
 // Sets up the Express App
 // =============================================================
@@ -28,9 +28,8 @@ app.use(express.static("public"));
 
 // Routes
 // =============================================================
-require("./routes/html-routes.js")(app);
-require("./routes/author-api-routes.js")(app);
-require("./routes/post-api-routes.js")(app);
+
+require("./routes/user-routes.js")(app, jwt);
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================

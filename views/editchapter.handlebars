@@ -1,0 +1,26 @@
+<h1>Online Writing Journal!</h1>
+
+<h2>Editing
+    <span id="js-name-of-book-goes-here"></span>
+</h2>
+
+<div class="user-options">
+    <button type="submit">Back to Chapter Select</button>
+    <button type="submit">Back to Dashboard</button>
+    <button type="submit">Logout</button>
+</div>
+
+<div>
+    {{> chapters/chapters-block}}
+    <div>
+        <form class="create-form">
+            <button type="submit">Save</button>
+            <button type="submit">Delete</button>
+
+            <div>{{!-- Title of current chapter goes here --}}</div>
+
+            <textarea>{{!-- The current chapter text is loaded here. --}}</textarea>
+
+        </form>
+    </div>
+</div>

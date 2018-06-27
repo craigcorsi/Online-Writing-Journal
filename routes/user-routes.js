@@ -9,6 +9,9 @@ module.exports = function (app, jwt) {
         // if successful, redirect to dashboard
     });
 
+    app.get('/logout', function(req, res){
+        // return to index.handlebars
+    });
 
     // ???
     app.get('/books/:book', function(req, res) {
