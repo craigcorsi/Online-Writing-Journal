@@ -62,5 +62,3 @@ typings/
 
 # Steph's additions
 config/config.json
-package-lock.json
-package.json

@@ -2,9 +2,13 @@
 
 <h2>Chapter select for <span id="js-name-of-book-goes-here"></span></h2>
 
-<div class="user-options">
+<form class="user-options" method="get" action="/dashboard">
   <button type="submit">Back to Dashboard</button>
+</form>
+
+<form class="user-options" method="get" action="/">
   <button type="submit">Logout</button>
-</div>
+</form>
+
 
 {{> chapters/chapters-block}}
