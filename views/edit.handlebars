@@ -1,0 +1,50 @@
+<!-- BEGIN HEADER -->
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Online Writing Journal!</h1>
+        <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+    </div>
+</div>
+
+<h2>EDIT BOOK</h2>
+<!-- END HEADER -->
+
+
+
+
+
+<!-- BEGIN CONTENT -->
+<div class="container">
+    <div class="row">
+
+        <!-- BEGIN CHAPTER WRAPPER -->
+        <div class="col-lg-4">
+            <!-- call to file: views/partials/chapters/chapters-block.handlebars -->
+            {{> chapters/chapters-block}}
+        </div>
+        <!-- END CHAPTER WRAPPER -->
+
+
+        <!-- BEGIN EDITING WRAPPER -->
+        <div class="col-lg-8">
+            <!-- call to file:  views/partials/chapters/editchapter.handlebars-->
+            {{> chapters/editchapter}}
+        </div>
+        <!-- END EDITING WRAPPER -->
+
+
+    </div>
+</div>
+<!-- END CONTENT -->
+
+
+
+
+
+
+
+<!-- BEGIN FOOTER -->
+<footer>
+    Copyright
+</footer>
+<!-- END FOOTER -->
