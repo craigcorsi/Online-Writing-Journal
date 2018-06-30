@@ -19,22 +19,31 @@ module.exports = function (app, db) {
 
                 // set a cookie
                 // check if client sent cookie
-                var cookie = req.cookies.cookieName;
-                if (cookie === undefined) {
+                var cookie = req.cookies;
+                console.log(cookie)
+                if (cookie === {}) {
                     // no: set a new cookie
-                    res.cookie(username, result.id, { maxAge: 900000, httpOnly: true });
+                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
                     console.log('cookie created successfully');
+
                 }
                 else {
                     // yes, cookie was already present 
-                    console.log('cookie exists', cookie);
+                    res.clearCookie('user');
+                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
+                    console.log('cookie created successfully');
+                    
+
                 }
                 res.redirect('/dashboard')
+
                 next(); // <-- important!
 
 
             } else {
                 console.log('username or password was incorrect')
+                res.redirect('/')
+
             }
         });
         // if successful, redirect to dashboard
@@ -61,10 +70,10 @@ module.exports = function (app, db) {
             }
 
         })
-
     });
 
     app.get('/logout', function (req, res) {
+        res.clearCookie('user')
         res.redirect('/login');
     })
 
@@ -88,7 +97,9 @@ module.exports = function (app, db) {
     // });
 
     app.get('/', function (req, res) {
+        console.log(req.cookies)
         res.render("index");
+
     });
 
     app.get('/dashboard', function (req, res) {
