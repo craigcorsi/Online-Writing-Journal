@@ -1,6 +1,6 @@
 module.exports = function (app, db) {
 
-    app.post('/login', function (req, res) {
+    app.post('/login', function (req, res, next) {
         // validate user's email and password
         var username = req.body.username
         var password = req.body.password
@@ -20,6 +20,7 @@ module.exports = function (app, db) {
                 // set a cookie
                 // check if client sent cookie
                 var cookie = req.cookies;
+                console.log(cookie)
                 if (cookie === {}) {
                     // no: set a new cookie
                     res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
@@ -46,7 +47,7 @@ module.exports = function (app, db) {
             }
         });
         // if successful, redirect to dashboard
-        res.redirect('/dashboard');
+        // res.redirect('/dashboard');
     });
 
     app.post('/register', function (req, res) {
@@ -56,7 +57,7 @@ module.exports = function (app, db) {
             res.json(dbUser);
         });
         // redirect to '/login'
-        res.redirect('/');
+        // res.redirect('/');
     });
 
     app.get('/logout', function (req, res) {

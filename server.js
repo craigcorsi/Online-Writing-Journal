@@ -39,20 +39,6 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 app.use(cookieParser());
-// app.use(function (req, res, next) {
-//     // check if client sent cookie
-//     var cookie = req.cookies.cookieName;
-//     if (cookie === undefined) {
-//         // no: set a new cookie
-//         res.cookie('test', 'test', { maxAge: 900000, httpOnly: true });
-//         console.log('cookie created successfully');
-//     }
-//     else {
-//         // yes, cookie was already present 
-//         console.log('cookie exists', cookie);
-//     }
-//     next(); // <-- important!
-// });
 // Routes
 // =============================================================
 
