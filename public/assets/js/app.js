@@ -25,29 +25,28 @@ function redirect(url) {
     window.location.replace(url);
 }
 
-function getFromJournal (url) {
-    $.ajax({
-        method: 'GET',
-        url: url
-    }).then(function(response){
-        console.log('Your journal page request was received! Proceed...');
-        //window.location.href = response;
-        // ????
-    });
-}
-
-function postToJournal (url, data) {
-    $.ajax({
-        method: 'POST',
-        url: url,
-        data: data
-    }).then(function(response){
-        console.log('Your journal page request was received! Proceed...');
-        console.log(response);
-    });
-}
 
 $(document).ready(function () {
+    function getFromJournal(url) {
+        $.ajax({
+            method: 'GET',
+            url: url
+        }).then(function (response) {
+            console.log('Your journal page request was received! Proceed...');
+            location.assign(url);
+        });
+    }
+
+    function postToJournal(url, data) {
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: data
+        }).then(function (response) {
+            console.log('Your journal page request was received! Proceed...');
+            //location.assign(url);
+        });
+    }
     $('body').on('click', '#js-register-submitButton', function (event) {
         event.preventDefault();
         console.log('I will try to register');
@@ -78,6 +77,25 @@ $(document).ready(function () {
         console.log('123');
 
         getFromJournal('logout/');
+    });
+
+    $('body').on('click', '#js-new-book-submit', function (event) {
+        event.preventDefault();
+        console.log('creating a new book...');
+
+        var data = {
+            book_name: $('#js-new-book-input').val().trim(),
+            UserId: 12345
+        };
+
+        $.ajax({
+            method: 'POST',
+            url: 'books/',
+            data: data
+        }).then(function (response) {
+            console.log('Your journal page request was received! Proceed...');
+            location.reload();
+        });
     });
 });
 

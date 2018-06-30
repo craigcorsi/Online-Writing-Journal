@@ -46,7 +46,6 @@ module.exports = function (app, db) {
 
         console.log(req.body)
 
-
         db.User.findOne({
             where: {
                 username: req.body.username
@@ -63,7 +62,6 @@ module.exports = function (app, db) {
 
         })
 
-
     });
 
     app.get('/logout', function (req, res) {
@@ -75,39 +73,42 @@ module.exports = function (app, db) {
     // ???
     app.get('/books/:book', function (req, res) {
 
-        // changed by steph on 6-30-18 // this file has been deprecated 
-        // res.render("chapterselect");
-
-        // updated by steph on 6-30-18
-        // this file will call the following partials:
-        // partials/chapters/chapters-block.handlebars
-        // partials/chapters/editchapter.handlebars 
-        res.render("edit");
-
+        res.render("chapterselect");
     });
 
-    app.get('/books/:book/:chapter', function (req, res) {
+    // "editchapter.handlebars   deleted"
+    // app.get('/books/:book/:chapter', function (req, res) {
 
 
-        res.render("editchapter");
+    //     res.render("editchapter");
 
-        // load the text currently written to the chapter
+    //     // load the text currently written to the chapter
 
-        // create textarea, populate with the current chapter text
-    });
+    //     // create textarea, populate with the current chapter text
+    // });
 
     app.get('/', function (req, res) {
         res.render("index");
     });
 
     app.get('/dashboard', function (req, res) {
-        console.log('at this point there should be a redirect');
-        res.render("dashboard");
-
+        db.Book.findAll({
+            // where: {username: req.body.username}}
+        }).then(function (result) {
+            console.log(result);
+            var BookObject = {
+                books: result
+            };
+            res.render("dashboard", BookObject);
+        });
     });
+
     app.post('/books', function (req, res) {
-        // add book to books table -- use Books.associate (maybe)
-        // redirect to '/books/book'
+        db.Book.create({
+            book_name: req.body.book_name,
+            UserId: req.body.UserId,
+        });
+        res.redirect('/dashboard');
     });
 
     app.post('books/:book', function (req, res) {
