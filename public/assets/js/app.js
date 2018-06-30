@@ -30,8 +30,8 @@ function getFromJournal(url) {
         method: 'GET',
         url: url
     }).then(function (response) {
-        console.log('Your journal GET request was received! Proceed...');
-        location.assign(url);
+        console.log('Your journal page request was received! Proceed...');
+        console.log(response);
     });
 }
 
@@ -41,8 +41,8 @@ function postToJournal(url, data) {
         url: url,
         data: data
     }).then(function (response) {
-        console.log('Your journal POST request was received! Proceed...');
-        //location.assign(url);
+        console.log('Your journal page request was received! Proceed...');
+        console.log(response);
     });
 }
 
