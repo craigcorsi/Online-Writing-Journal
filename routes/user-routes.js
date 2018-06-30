@@ -53,7 +53,7 @@ module.exports = function (app, db) {
         // updated by steph on 6-30-18
         // this file will call the following partials:
         // partials/chapters/chapters-block.handlebars
-        // partials/chapters/editchapter.handlebars
+        // partials/chapters/editchapter.handlebars 
         res.render("edit");
 
     });
