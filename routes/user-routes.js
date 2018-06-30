@@ -39,7 +39,7 @@ module.exports = function (app, db) {
 
     app.get('/logout', function (req, res) {
         req.session = null;
-        res.redirect('/login')
+        res.redirect('/login');
     })
 
 
@@ -68,8 +68,7 @@ module.exports = function (app, db) {
     });
 
     app.get('/dashboard', function (req, res) {
-
-
+        console.log('at this point there should be a redirect');
         res.render("dashboard");
 
     });
