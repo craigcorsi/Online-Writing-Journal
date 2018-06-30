@@ -1,6 +1,6 @@
 module.exports = function (app, db) {
 
-    app.post('/login', function (req, res, next) {
+    app.post('/login', function (req, res) {
         // validate user's email and password
         var username = req.body.username
         var password = req.body.password
@@ -19,54 +19,48 @@ module.exports = function (app, db) {
 
                 // set a cookie
                 // check if client sent cookie
-                var cookie = req.cookies.cookieName;
-                if (cookie === undefined) {
+                var cookie = req.cookies;
+                if (cookie === {}) {
                     // no: set a new cookie
-                    res.cookie(username, result.id, { maxAge: 900000, httpOnly: true });
+                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
                     console.log('cookie created successfully');
+
                 }
                 else {
                     // yes, cookie was already present 
-                    console.log('cookie exists', cookie);
+                    res.clearCookie('user');
+                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
+                    console.log('cookie created successfully');
+                    
+
                 }
                 res.redirect('/dashboard')
+
                 next(); // <-- important!
 
 
             } else {
                 console.log('username or password was incorrect')
+                res.redirect('/')
+
             }
         });
         // if successful, redirect to dashboard
-        // res.redirect('/dashboard');
+        res.redirect('/dashboard');
     });
 
     app.post('/register', function (req, res) {
         // add user information to db
 
-        console.log(req.body)
-
-
-        db.User.findOne({
-            where: {
-                username: req.body.username
-            }
-        }).then(function (result) {
-            if (result) {
-                console.log('this username already exists')
-            }
-            else {
-                db.User.create(req.body).then(function (dbUser) {
-                    res.json(dbUser);
-                });
-            }
-
-        })
-
-
+        db.User.create(req.body).then(function (dbUser) {
+            res.json(dbUser);
+        });
+        // redirect to '/login'
+        res.redirect('/');
     });
 
     app.get('/logout', function (req, res) {
+        res.clearCookie('user')
         res.redirect('/login');
     })
 
@@ -75,15 +69,7 @@ module.exports = function (app, db) {
     // ???
     app.get('/books/:book', function (req, res) {
 
-        // changed by steph on 6-30-18 // this file has been deprecated 
-        // res.render("chapterselect");
-
-        // updated by steph on 6-30-18
-        // this file will call the following partials:
-        // partials/chapters/chapters-block.handlebars
-        // partials/chapters/editchapter.handlebars 
-        res.render("edit");
-
+        res.render("chapterselect");
     });
 
     app.get('/books/:book/:chapter', function (req, res) {
@@ -97,11 +83,14 @@ module.exports = function (app, db) {
     });
 
     app.get('/', function (req, res) {
+        console.log(req.cookies)
         res.render("index");
+
     });
 
     app.get('/dashboard', function (req, res) {
-        console.log('at this point there should be a redirect');
+
+
         res.render("dashboard");
 
     });
