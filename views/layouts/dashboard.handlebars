@@ -8,9 +8,25 @@
 <h2>YOUR DASHBOARD</h2>
 <!-- END HEADER -->
 
+<br>
+
+<div id="js-place-books-here">
+  {{#each books}}
+  		<p><span class="label">Book Name:</span> {{this.book_name}}</p>
+      <button data-id="{{this.id}}" class="jsClass-delete-book">Delete Book</button>
+      <a class="jsClass-edit-book" href="/edit">Edit this Book</a>
+      <br><br>
+  {{/each}}
+
+  <br>
+</div>
 
 
 
+<div id="js-new-book-container">
+  <input id="js-new-book-input">
+  <button id="js-new-book-submit">Create New Book!</button>
+</div>
 
 
 <form class="user-options" method="get" action="/">

@@ -1,6 +1,6 @@
 module.exports = function (app, db) {
 
-    app.post('/login', function (req, res) {
+    app.post('/login', function (req, res, next) {
         // validate user's email and password
         var username = req.body.username
         var password = req.body.password
@@ -16,29 +16,64 @@ module.exports = function (app, db) {
             var savedPass = result.dataValues.password;
             if (password === savedPass) {
                 console.log('logged in')
-                req.session.logged = result.id
-                console.log(req.session.logged)
+
+                // set a cookie
+                // check if client sent cookie
+                var cookie = req.cookies;
+                console.log(cookie)
+                if (cookie === {}) {
+                    // no: set a new cookie
+                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
+                    console.log('cookie created successfully');
+
+                }
+                else {
+                    // yes, cookie was already present 
+                    res.clearCookie('user');
+                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
+                    console.log('cookie created successfully');
+                    
+
+                }
+                res.redirect('/dashboard')
+
+                next(); // <-- important!
+
 
             } else {
                 console.log('username or password was incorrect')
+                res.redirect('/')
+
             }
         });
         // if successful, redirect to dashboard
-        res.redirect('/dashboard');
+        // res.redirect('/dashboard');
     });
 
     app.post('/register', function (req, res) {
         // add user information to db
 
-        db.User.create(req.body).then(function (dbUser) {
-            res.json(dbUser);
-        });
-        // redirect to '/login'
-        res.redirect('/');
+        console.log(req.body)
+
+        db.User.findOne({
+            where: {
+                username: req.body.username
+            }
+        }).then(function (result) {
+            if (result) {
+                console.log('this username already exists')
+            }
+            else {
+                db.User.create(req.body).then(function (dbUser) {
+                    res.json(dbUser);
+                });
+            }
+
+        })
     });
 
     app.get('/logout', function (req, res) {
-        req.session = null;
+        res.clearCookie('user')
         res.redirect('/login');
     })
 
@@ -62,32 +97,41 @@ module.exports = function (app, db) {
 
     });
 
-    app.get('/books/:book/:chapter', function (req, res) {
+    // "editchapter.handlebars   deleted"
+    // app.get('/books/:book/:chapter', function (req, res) {
 
 
-        res.render("editchapter");
+    //     res.render("editchapter");
 
-        // load the text currently written to the chapter
+    //     // load the text currently written to the chapter
 
-        // create textarea, populate with the current chapter text
-    });
+    //     // create textarea, populate with the current chapter text
+    // });
 
     app.get('/', function (req, res) {
-        console.log(req.session)
-        if (req.session.logged === 5) { console.log('working') }
+        console.log(req.cookies)
         res.render("index");
 
     });
 
     app.get('/dashboard', function (req, res) {
-        console.log('at this point there should be a redirect');
-        // updated by sjaps on 6-30-18 because file was moved
-        res.render("layouts/dashboard");
-
+        db.Book.findAll({
+            // where: {username: req.body.username}}
+        }).then(function (result) {
+            console.log(result);
+            var BookObject = {
+                books: result
+            };
+            res.render("layouts/dashboard", BookObject);
+        });
     });
+
     app.post('/books', function (req, res) {
-        // add book to books table -- use Books.associate (maybe)
-        // redirect to '/books/book'
+        db.Book.create({
+            book_name: req.body.book_name,
+            UserId: req.body.UserId,
+        });
+        res.redirect('/dashboard');
     });
 
     app.post('books/:book', function (req, res) {
@@ -110,8 +154,14 @@ module.exports = function (app, db) {
 
 
     app.delete('books/:book', function (req, res) {
-        // delete book
-        // redirect to dashboard
+        console.log(req.params.book);
+        db.Book.destroy({
+            where: {
+                id: req.params.book
+            }
+        }).then(function(response){
+            
+        });
     });
 
     app.delete('books/:book/:chapter', function (req, res) {

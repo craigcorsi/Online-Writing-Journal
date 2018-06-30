@@ -6,8 +6,7 @@
 // =============================================================
 var express = require("express");
 var bodyParser = require("body-parser");
-var cookieSession = require('cookie-session')
-// path added for static routes by steph on 6/30/18
+var cookieParser = require("cookie-parser");
 var path = require("path");
 
 
@@ -19,6 +18,8 @@ var PORT = process.env.PORT || 8080;
 // Requiring our models for syncing
 var db = require("./models");
 
+
+// need cookieParser middleware before we can do anything with cookies
 
 
 // Sets up the Express app to handle data parsing
@@ -36,25 +37,19 @@ app.use('/public', express.static(path.join(__dirname, "public")));
 // app.use('/static', express.static(path.join(__dirname, 'public')))
 
 
-app.use(cookieSession({
-    name: 'session',
-    keys: ['key'],
-   
-    // Cookie Options
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }))
-
 // Set Handlebars.
 var exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-
+app.use(cookieParser());
 // Routes
 // =============================================================
 
+
 require("./routes/user-routes.js")(app, db);
+
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
