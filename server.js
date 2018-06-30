@@ -6,7 +6,8 @@
 // =============================================================
 var express = require("express");
 var bodyParser = require("body-parser");
-var cookieParser = require("cookie-parser")
+var cookieParser = require("cookie-parser");
+var path = require("path");
 
 
 // Sets up the Express App
@@ -29,7 +30,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Static directory
-app.use(express.static("public"));
+// updated 6-30-18 by steph
+// static route needs to be set up to work in all server environments
+// app.use(express.static("public"));
+app.use('/public', express.static(path.join(__dirname, "public")));
+// app.use('/static', express.static(path.join(__dirname, 'public')))
 
 
 // Set Handlebars.

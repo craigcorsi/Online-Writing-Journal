@@ -82,7 +82,19 @@ module.exports = function (app, db) {
     // ???
     app.get('/books/:book', function (req, res) {
 
-        res.render("chapterselect");
+
+
+        // changed by steph on 6-30-18 // this file has been deprecated 
+        // res.render("chapterselect");
+
+        // updated by steph on 6-30-18
+        // this file will call the following partials:
+        // partials/chapters/chapters-block.handlebars
+        // partials/chapters/editchapter.handlebars 
+        // updated by sjaps because file was moved
+        res.render("layouts/edit");
+        
+
     });
 
     // "editchapter.handlebars   deleted"
@@ -110,7 +122,7 @@ module.exports = function (app, db) {
             var BookObject = {
                 books: result
             };
-            res.render("dashboard", BookObject);
+            res.render("layouts/dashboard", BookObject);
         });
     });
 
