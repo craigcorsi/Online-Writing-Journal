@@ -47,6 +47,8 @@ module.exports = function (app, db) {
     // ???
     app.get('/books/:book', function (req, res) {
 
+
+
         // changed by steph on 6-30-18 // this file has been deprecated 
         // res.render("chapterselect");
 
@@ -54,7 +56,9 @@ module.exports = function (app, db) {
         // this file will call the following partials:
         // partials/chapters/chapters-block.handlebars
         // partials/chapters/editchapter.handlebars 
-        res.render("edit");
+        // updated by sjaps because file was moved
+        res.render("layouts/edit");
+        
 
     });
 
@@ -77,7 +81,8 @@ module.exports = function (app, db) {
 
     app.get('/dashboard', function (req, res) {
         console.log('at this point there should be a redirect');
-        res.render("dashboard");
+        // updated by sjaps on 6-30-18 because file was moved
+        res.render("layouts/dashboard");
 
     });
     app.post('/books', function (req, res) {
