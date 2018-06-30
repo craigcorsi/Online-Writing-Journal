@@ -1,6 +1,6 @@
 module.exports = function (app, db) {
 
-    app.post('/login', function (req, res) {
+    app.post('/login', function (req, res, next) {
         // validate user's email and password
         var username = req.body.username
         var password = req.body.password
@@ -16,29 +16,57 @@ module.exports = function (app, db) {
             var savedPass = result.dataValues.password;
             if (password === savedPass) {
                 console.log('logged in')
-                req.session.logged = result.id
-                console.log(req.session.logged)
+
+                // set a cookie
+                // check if client sent cookie
+                var cookie = req.cookies.cookieName;
+                if (cookie === undefined) {
+                    // no: set a new cookie
+                    res.cookie(username, result.id, { maxAge: 900000, httpOnly: true });
+                    console.log('cookie created successfully');
+                }
+                else {
+                    // yes, cookie was already present 
+                    console.log('cookie exists', cookie);
+                }
+                res.redirect('/dashboard')
+                next(); // <-- important!
+
 
             } else {
                 console.log('username or password was incorrect')
             }
         });
         // if successful, redirect to dashboard
-        res.redirect('/dashboard');
+        // res.redirect('/dashboard');
     });
 
     app.post('/register', function (req, res) {
         // add user information to db
 
-        db.User.create(req.body).then(function (dbUser) {
-            res.json(dbUser);
-        });
-        // redirect to '/login'
-        res.redirect('/');
+        console.log(req.body)
+
+
+        db.User.findOne({
+            where: {
+                username: req.body.username
+            }
+        }).then(function (result) {
+            if (result) {
+                console.log('this username already exists')
+            }
+            else {
+                db.User.create(req.body).then(function (dbUser) {
+                    res.json(dbUser);
+                });
+            }
+
+        })
+
+
     });
 
     app.get('/logout', function (req, res) {
-        req.session = null;
         res.redirect('/login');
     })
 
@@ -61,10 +89,7 @@ module.exports = function (app, db) {
     });
 
     app.get('/', function (req, res) {
-        console.log(req.session)
-        if (req.session.logged === 5) { console.log('working') }
         res.render("index");
-
     });
 
     app.get('/dashboard', function (req, res) {

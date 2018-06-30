@@ -6,7 +6,7 @@
 // =============================================================
 var express = require("express");
 var bodyParser = require("body-parser");
-var cookieSession = require('cookie-session')
+var cookieParser = require("cookie-parser")
 
 
 // Sets up the Express App
@@ -17,6 +17,8 @@ var PORT = process.env.PORT || 8080;
 // Requiring our models for syncing
 var db = require("./models");
 
+
+// need cookieParser middleware before we can do anything with cookies
 
 
 // Sets up the Express app to handle data parsing
@@ -30,25 +32,33 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 
 
-app.use(cookieSession({
-    name: 'session',
-    keys: ['key'],
-   
-    // Cookie Options
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }))
-
 // Set Handlebars.
 var exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-
+app.use(cookieParser());
+// app.use(function (req, res, next) {
+//     // check if client sent cookie
+//     var cookie = req.cookies.cookieName;
+//     if (cookie === undefined) {
+//         // no: set a new cookie
+//         res.cookie('test', 'test', { maxAge: 900000, httpOnly: true });
+//         console.log('cookie created successfully');
+//     }
+//     else {
+//         // yes, cookie was already present 
+//         console.log('cookie exists', cookie);
+//     }
+//     next(); // <-- important!
+// });
 // Routes
 // =============================================================
 
+
 require("./routes/user-routes.js")(app, db);
+
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
