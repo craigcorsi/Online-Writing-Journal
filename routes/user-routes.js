@@ -16,11 +16,38 @@ module.exports = function (app, db) {
             var savedPass = result.dataValues.password;
             if (password === savedPass) {
                 console.log('logged in')
+<<<<<<< Updated upstream
                 req.session.logged = result.id
                 console.log(req.session.logged)
+=======
+
+                // set a cookie
+                // check if client sent cookie
+                var cookie = req.cookies;
+                if (cookie === {}) {
+                    // no: set a new cookie
+                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
+                    console.log('cookie created successfully');
+
+                }
+                else {
+                    // yes, cookie was already present 
+                    res.clearCookie('user');
+                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
+                    console.log('cookie created successfully');
+                    
+
+                }
+                res.redirect('/dashboard')
+
+                next(); // <-- important!
+
+>>>>>>> Stashed changes
 
             } else {
                 console.log('username or password was incorrect')
+                res.redirect('/')
+
             }
         });
         // if successful, redirect to dashboard
@@ -38,8 +65,13 @@ module.exports = function (app, db) {
     });
 
     app.get('/logout', function (req, res) {
+<<<<<<< Updated upstream
         req.session = null;
         res.redirect('/login')
+=======
+        res.clearCookie('user')
+        res.redirect('/login');
+>>>>>>> Stashed changes
     })
 
 
@@ -61,8 +93,12 @@ module.exports = function (app, db) {
     });
 
     app.get('/', function (req, res) {
+<<<<<<< Updated upstream
         console.log(req.session)
         if (req.session.logged === 5) { console.log('working') }
+=======
+        console.log(req.cookies)
+>>>>>>> Stashed changes
         res.render("index");
 
     });
