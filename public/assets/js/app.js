@@ -25,28 +25,34 @@ function redirect(url) {
     window.location.replace(url);
 }
 
+function getFromJournal(url) {
+    $.ajax({
+        method: 'GET',
+        url: url
+    }).then(function (response) {
+        console.log('Your journal GET request was received! Proceed...');
+        location.assign(url);
+    });
+}
+
+function postToJournal(url, data) {
+    $.ajax({
+        method: 'POST',
+        url: url,
+        data: data
+    }).then(function (response) {
+        console.log('Your journal POST request was received! Proceed...');
+        //location.assign(url);
+    });
+}
+
+
+
+
 
 $(document).ready(function () {
-    function getFromJournal(url) {
-        $.ajax({
-            method: 'GET',
-            url: url
-        }).then(function (response) {
-            console.log('Your journal page request was received! Proceed...');
-            location.assign(url);
-        });
-    }
 
-    function postToJournal(url, data) {
-        $.ajax({
-            method: 'POST',
-            url: url,
-            data: data
-        }).then(function (response) {
-            console.log('Your journal page request was received! Proceed...');
-            //location.assign(url);
-        });
-    }
+    // INDEX: Register new user
     $('body').on('click', '#js-register-submitButton', function (event) {
         event.preventDefault();
         console.log('I will try to register');
@@ -55,10 +61,21 @@ $(document).ready(function () {
             username: $('#js-register-usernameField').val().trim(),
             password: $('#js-register-passwordField').val()
         }
-        console.log('O Captain My Captain');
-        postToJournal('register/', newUserData);
+        $.ajax({
+            method: 'POST',
+            url: 'register/',
+            data: newUserData
+        }).then(function (response) {
+            console.log('Your journal POST request was received! Proceed...');
+            //location.assign(url);
+        });
     });
 
+
+
+
+
+    // INDEX: Login as existing user
     $('body').on('click', '#js-login-submitButton', function (event) {
         event.preventDefault();
         console.log('I will try to log in');
@@ -68,17 +85,41 @@ $(document).ready(function () {
             password: $('#js-login-passwordField').val()
         }
 
-        postToJournal('login/', loginData);
+        $.ajax({
+            method: 'POST',
+            url: 'login/',
+            data: loginData
+        }).then(function (response) {
+            console.log('Your journal POST request was received! Proceed...');
+            //location.assign(url);
+        });
     });
 
 
+
+
+    // DASHBOARD or EDIT: Logout to index
     $('body').on('click', '#js-button-logout', function (event) {
         event.preventDefault();
         console.log('123');
 
-        getFromJournal('logout/');
+        $.ajax({
+            method: 'GET',
+            url: '/logout'
+        }).then(function (response) {
+            console.log('Your journal GET request was received! Proceed...');
+            location.assign('/');
+        });
     });
 
+
+
+
+
+
+
+
+    // DASHBOARD: create new book
     $('body').on('click', '#js-new-book-submit', function (event) {
         event.preventDefault();
         console.log('creating a new book...');
@@ -92,6 +133,25 @@ $(document).ready(function () {
             method: 'POST',
             url: 'books/',
             data: data
+        }).then(function (response) {
+            console.log('Your journal page request was received! Proceed...');
+            location.reload();
+        });
+    });
+
+
+    // DASHBOARD: delete book
+    $('body').on('click', '.jsClass-delete-book', function (event) {
+        event.preventDefault();
+        console.log('deleting book...');
+
+        console.log($(this).data('id'));
+
+        var url = 'books/' + $(this).data('id');
+
+        $.ajax({
+            method: 'DELETE',
+            url: url
         }).then(function (response) {
             console.log('Your journal page request was received! Proceed...');
             location.reload();

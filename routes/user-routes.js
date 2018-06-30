@@ -131,8 +131,14 @@ module.exports = function (app, db) {
 
 
     app.delete('books/:book', function (req, res) {
-        // delete book
-        // redirect to dashboard
+        console.log(req.params.book);
+        db.Book.destroy({
+            where: {
+                id: req.params.book
+            }
+        }).then(function(response){
+            
+        });
     });
 
     app.delete('books/:book/:chapter', function (req, res) {
