@@ -34,19 +34,7 @@ module.exports = function (app, db) {
                     console.log('cookie created successfully');
                 }
                 // load dashboard
-                db.Book.findAll({
-                    where: {
-                        UserId: result.id
-                    }
-                }).then(function (userBooks) {
-                    console.log(userBooks);
-                    var BookObject = {
-                        username: username,
-                        books: userBooks
-                    };
-                    console.log(BookObject);
-                    res.render("layouts/dashboard", BookObject);
-                });
+                res.render("layouts/dashboard", {name: username});
 
                 // From Craig Jul-3-18: This was causing problems while redirecting to /dashboard
                 // next(); // <-- important!
@@ -55,7 +43,7 @@ module.exports = function (app, db) {
             } else {
                 console.log('username or password was incorrect')
                 res.redirect('/');
-
+                $('#js-username-goes-here-1').text(username);
             }
         });
         // if successful, redirect to dashboard
@@ -86,7 +74,7 @@ module.exports = function (app, db) {
 
     app.get('/logout', function (req, res) {
         res.clearCookie('user')
-        res.redirect('/login');
+        res.redirect('/');
     })
 
 
@@ -126,22 +114,21 @@ module.exports = function (app, db) {
     });
 
     app.get('/dashboard', function (req, res) {
+        res.render("layouts/dashboard", {name: 'username'});
+    });
+
+    app.get('/books', function (req, res) {
         db.Book.findAll({
-            where: {
-                UserId: req.UserId
-            }
+            // where: {
+            //     UserId: req.UserId
+            // }
         }).then(function (result) {
             console.log(result);
-            var BookObject = {
-                username: UserId,
-                books: result
-            };
-            console.log(BookObject);
-            res.render("layouts/dashboard", BookObject);
+            res.json(result);
         });
     });
 
-    // function to load dashboard from another get request
+        // function to load dashboard from another get request
 
 
 
@@ -153,49 +140,49 @@ module.exports = function (app, db) {
 
 
 
-    app.post('/books', function (req, res) {
-        db.Book.create({
-            book_name: req.body.book_name,
-            UserId: req.body.UserId,
-        }).then(function (result) {
-            res.redirect('/dashboard');
+        app.post('/books', function (req, res) {
+            db.Book.create({
+                book_name: req.body.book_name,
+                UserId: req.body.UserId,
+            }).then(function (result) {
+                res.redirect('/dashboard');
+            });
         });
-    });
 
-    app.post('books/:book', function (req, res) {
-        // add chapter to book
-        // redirect to '/books/:book/:chapter' (start working on the chapter)
-    });
-
-
-
-    app.put('books/:book', function (req, res) {
-        // Update book title
-        // Redirect to Dashboard
-    });
-
-    app.put('books/:book/:chapter', function (req, res) {
-        // update chapter of book
-        // redirect to '/books/:book/:chapter' (reload the page)
-    });
-
-
-
-    app.delete('books/:book', function (req, res) {
-        console.log(req.params.book);
-        db.Book.destroy({
-            where: {
-                id: req.params.book
-            }
-        }).then(function (response) {
-
+        app.post('books/:book', function (req, res) {
+            // add chapter to book
+            // redirect to '/books/:book/:chapter' (start working on the chapter)
         });
-    });
-
-    app.delete('books/:book/:chapter', function (req, res) {
-        // delete chapter
-        // redirect to chapter select '/books/book'
-    });
 
 
-}
+
+        app.put('books/:book', function (req, res) {
+            // Update book title
+            // Redirect to Dashboard
+        });
+
+        app.put('books/:book/:chapter', function (req, res) {
+            // update chapter of book
+            // redirect to '/books/:book/:chapter' (reload the page)
+        });
+
+
+
+        app.delete('books/:book', function (req, res) {
+            console.log(req.params.book);
+            db.Book.destroy({
+                where: {
+                    id: req.params.book
+                }
+            }).then(function (response) {
+
+            });
+        });
+
+        app.delete('books/:book/:chapter', function (req, res) {
+            // delete chapter
+            // redirect to chapter select '/books/book'
+        });
+
+
+    }

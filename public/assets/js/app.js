@@ -79,6 +79,8 @@ $(document).ready(function () {
 
 
 
+
+
     // INDEX: Login as existing user
     $('body').on('click', '#js-login-submitButton', function (event) {
         event.preventDefault();
@@ -94,8 +96,7 @@ $(document).ready(function () {
             url: 'login/',
             data: loginData
         }).done(function(retrievedPage){
-            $('body').replaceWith(retrievedPage);
-            history.pushState('', 'Dashboard', '/dashboard');
+            location.assign('/dashboard');
         });
     });
 
@@ -130,7 +131,6 @@ $(document).ready(function () {
 
         var data = {
             book_name: $('#js-new-book-input').val().trim(),
-            UserId: 12345
         };
 
         $.ajax({
