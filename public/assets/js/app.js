@@ -19,32 +19,28 @@
  *
  */
 
-console.log('test');
+// function redirect(url) {
+//     window.location.replace(url);
+// }
 
-function redirect(url) {
-    window.location.replace(url);
-}
+// function getFromJournal(url) {
+//     $.ajax({
+//         method: 'GET',
+//         url: url
+//     }).then(function (response) {
+//         console.log(response);
+//     });
+// }
 
-function getFromJournal(url) {
-    $.ajax({
-        method: 'GET',
-        url: url
-    }).then(function (response) {
-        console.log('Your journal page request was received! Proceed...');
-        console.log(response);
-    });
-}
-
-function postToJournal(url, data) {
-    $.ajax({
-        method: 'POST',
-        url: url,
-        data: data
-    }).then(function (response) {
-        console.log('Your journal page request was received! Proceed...');
-        console.log(response);
-    });
-}
+// function postToJournal(url, data) {
+//     $.ajax({
+//         method: 'POST',
+//         url: url,
+//         data: data
+//     }).then(function (response) {
+//         console.log(response);
+//     });
+// }
 
 
 
@@ -66,8 +62,16 @@ $(document).ready(function () {
             url: 'register/',
             data: newUserData
         }).then(function (response) {
-            console.log('Your journal POST request was received! Proceed...');
-            //location.assign(url);
+            console.log(response);
+            var registrantMessage;
+            if (response == "exists") {
+                registrantMessage = `An account with this username is already registered with us. If this is you, log in!`;
+            } else if (response) {
+                registrantMessage = `Welcome, ${newUserData.username}! Log in below to proceed!`
+            } else {
+                registrantMessage = `Sorry, we couldn't create an account with that information.`
+            }
+            $('#js-homepage-register-message').text(registrantMessage);
         });
     });
 
@@ -89,9 +93,9 @@ $(document).ready(function () {
             method: 'POST',
             url: 'login/',
             data: loginData
-        }).then(function (response) {
-            console.log('Your journal POST request was received! Proceed...');
-            //location.assign(url);
+        }).done(function(retrievedPage){
+            $('body').replaceWith(retrievedPage);
+            history.pushState('', 'Dashboard', '/dashboard');
         });
     });
 

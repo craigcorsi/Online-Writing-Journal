@@ -32,17 +32,29 @@ module.exports = function (app, db) {
                     res.clearCookie('user');
                     res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
                     console.log('cookie created successfully');
-                    
-
                 }
-                res.redirect('/dashboard')
+                // load dashboard
+                db.Book.findAll({
+                    where: {
+                        UserId: result.id
+                    }
+                }).then(function (userBooks) {
+                    console.log(userBooks);
+                    var BookObject = {
+                        username: username,
+                        books: userBooks
+                    };
+                    console.log(BookObject);
+                    res.render("layouts/dashboard", BookObject);
+                });
 
-                next(); // <-- important!
+                // From Craig Jul-3-18: This was causing problems while redirecting to /dashboard
+                // next(); // <-- important!
 
 
             } else {
                 console.log('username or password was incorrect')
-                res.redirect('/')
+                res.redirect('/');
 
             }
         });
@@ -61,7 +73,7 @@ module.exports = function (app, db) {
             }
         }).then(function (result) {
             if (result) {
-                console.log('this username already exists')
+                res.json("exists");
             }
             else {
                 db.User.create(req.body).then(function (dbUser) {
@@ -93,7 +105,7 @@ module.exports = function (app, db) {
         // partials/chapters/editchapter.handlebars 
         // updated by sjaps because file was moved
         res.render("layouts/edit");
-        
+
 
     });
 
@@ -111,27 +123,43 @@ module.exports = function (app, db) {
     app.get('/', function (req, res) {
         console.log(req.cookies)
         res.render("index");
-
     });
 
     app.get('/dashboard', function (req, res) {
         db.Book.findAll({
-            // where: {username: req.body.username}}
+            where: {
+                UserId: req.UserId
+            }
         }).then(function (result) {
             console.log(result);
             var BookObject = {
+                username: UserId,
                 books: result
             };
+            console.log(BookObject);
             res.render("layouts/dashboard", BookObject);
         });
     });
+
+    // function to load dashboard from another get request
+
+
+
+
+
+
+
+
+
+
 
     app.post('/books', function (req, res) {
         db.Book.create({
             book_name: req.body.book_name,
             UserId: req.body.UserId,
+        }).then(function (result) {
+            res.redirect('/dashboard');
         });
-        res.redirect('/dashboard');
     });
 
     app.post('books/:book', function (req, res) {
@@ -159,8 +187,8 @@ module.exports = function (app, db) {
             where: {
                 id: req.params.book
             }
-        }).then(function(response){
-            
+        }).then(function (response) {
+
         });
     });
 
