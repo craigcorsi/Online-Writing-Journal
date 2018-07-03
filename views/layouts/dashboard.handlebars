@@ -1,52 +1,53 @@
 <!-- BEGIN HEADER -->
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4">Online Writing Journal</h1>
+{{> headers/header}}
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="page-title">Your Dashboard</h2>
+    </div>
   </div>
 </div>
 
-<h2>YOUR DASHBOARD</h2>
 <!-- END HEADER -->
+<div class="container">
+  <div class="row">
+    <div class="col-12">
 
-<br>
 
-<div id="js-place-books-here">
-  {{#each books}}
-  		<p><span class="label">Book Name:</span> {{this.book_name}}</p>
+    <div id="js-place-books-here">
+      {{#each books}}
+      <p>
+        <span class="label">Book Name:</span> {{this.book_name}}</p>
       <button data-id="{{this.id}}" class="jsClass-delete-book">Delete Book</button>
       <a class="jsClass-edit-book" href="/edit">Edit this Book</a>
-      <br><br>
-  {{/each}}
+      <br>
+      <br> {{/each}}
 
-  <br>
+      <br>
+    </div>
+
+
+
+    <div id="js-new-book-container">
+      <input id="js-new-book-input">
+      <button id="js-new-book-submit">Create New Book!</button>
+    </div>
+
+
+    <form class="user-options" method="get" action="/">
+      <button type="submit">Log Out</button>
+    </form>
+
+    <div id="js-list-books-here">
+
+      <!-- LIST BOOKS HERE -->
+    </div>
+
+
+
+
+    </div>
+  </div>
 </div>
-
-
-
-<div id="js-new-book-container">
-  <input id="js-new-book-input">
-  <button id="js-new-book-submit">Create New Book!</button>
-</div>
-
-
-<form class="user-options" method="get" action="/">
-  <button type="submit">Log Out</button>
-</form>
-
-<div id="js-list-books-here">
-
-    <!-- LIST BOOKS HERE -->
-</div>
-
 <!-- END CONTENT -->
-
-
-
-
-
-
-<!-- BEGIN FOOTER -->
-<footer>
-    Copyright
-</footer>
-<!-- END FOOTER -->
