@@ -9,20 +9,19 @@
   </div>
 </div>
 
+<h2>Welcome to your Dashboard,
+  <span id="js-username-goes-here-1">{{name}}</span>
+</h2>
+
 <!-- END HEADER -->
 <div class="container">
   <div class="row">
     <div class="col-12">
 
 
-    <div id="js-place-books-here">
-      {{#each books}}
-      <p>
-        <span class="label">Book Name:</span> {{this.book_name}}</p>
-      <button data-id="{{this.id}}" class="jsClass-delete-book">Delete Book</button>
-      <a class="jsClass-edit-book" href="/edit">Edit this Book</a>
-      <br>
-      <br> {{/each}}
+      <div id="js-place-books-here">
+
+      </div>
 
       <br>
     </div>
@@ -34,20 +33,49 @@
       <button id="js-new-book-submit">Create New Book!</button>
     </div>
 
-
-    <form class="user-options" method="get" action="/">
+    <form class="user-options" method="get" action="/logout">
       <button type="submit">Log Out</button>
     </form>
 
-    <div id="js-list-books-here">
-
-      <!-- LIST BOOKS HERE -->
-    </div>
+    <!-- END CONTENT -->
 
 
 
 
-    </div>
+
+
+    <!-- BEGIN FOOTER -->
+    <footer>
+      Copyright
+    </footer>
+    <!-- END FOOTER -->
+
+    <script>
+      $(document).ready(function () {
+        $.ajax({
+          method: 'GET',
+          url: '/books',
+          data: {}
+        }).then(function (response) {
+          for (var i = 0; i < response.length; i++) {
+            var bookListing = $('<div>');
+            bookListing.append(`<p><span class="label">Book Name:</span>${response[i].dataValues.book_name}</p>`);
+            bookListing.append(`<button data-id="${this.dataValues.id}" class="jsClass-delete-book">Delete Book</button>`);
+            bookListing.append(`<a class="jsClass-edit-book" href="/edit">Edit this Book</a><br><br>`);
+            $('#js-place-books-here').append(bookListing);
+          }
+        });
+      });
+
+
+
+    </script> {{!-- {{#each books}}
+    <p>
+      <span class="label">Book Name:</span> {{this.dataValues.book_name}}</p>
+    <button data-id="{{this.dataValues.id}}" class="jsClass-delete-book">Delete Book</button>
+    <a class="jsClass-edit-book" href="/edit">Edit this Book</a>
+    <br>
+    <br> {{/each}} --}}
   </div>
 </div>
-<!-- END CONTENT -->
+</div>
