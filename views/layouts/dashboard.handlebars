@@ -1,11 +1,20 @@
 <!-- BEGIN HEADER -->
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4">Online Writing Journal</h1>
+{{> headers/header}}
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="page-title">
+        Welcome to your Dashboard
+        <span id="js-username-goes-here-1">{{name}}</span>
+        </h2>
+    </div>
   </div>
 </div>
 
-<h2>Welcome, <span id="js-username-goes-here-1">{{name}}</span></h2>
+{{!-- <h2>Welcome to your Dashboard
+  <span id="js-username-goes-here-1">{{name}}</span>
+</h2> --}}
 
 <h2>YOUR DASHBOARD</h2>
 <!-- END HEADER -->
