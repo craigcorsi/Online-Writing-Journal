@@ -159,30 +159,30 @@ module.exports = function (app, db) {
 
 
 
-    app.put('books/:book', function (req, res) {
+    app.put('/books/:book', function (req, res) {
         // Update book title
         // Redirect to Dashboard
     });
 
-    app.put('books/:book/:chapter', function (req, res) {
+    app.put('/books/:book/:chapter', function (req, res) {
         // update chapter of book
         // redirect to '/books/:book/:chapter' (reload the page)
     });
 
 
 
-    app.delete('books/:book', function (req, res) {
+    app.delete('/books/:book', function (req, res) {
         console.log(req.params.book);
         db.Book.destroy({
             where: {
-                id: req.params.book
+                book_name: req.params.book
             }
         }).then(function (response) {
-
+            res.json('Success');
         });
     });
 
-    app.delete('books/:book/:chapter', function (req, res) {
+    app.delete('/books/:book/:chapter', function (req, res) {
         // delete chapter
         // redirect to chapter select '/books/book'
     });

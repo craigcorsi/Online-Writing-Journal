@@ -107,7 +107,6 @@ $(document).ready(function () {
     $('body').on('click', '#js-button-logout', function (event) {
         event.preventDefault();
         console.log('123');
-
         $.ajax({
             method: 'GET',
             url: '/logout'

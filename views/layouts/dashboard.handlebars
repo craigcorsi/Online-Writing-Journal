@@ -64,6 +64,17 @@
         $('#js-place-books-here').append(bookListing);
       }
     });
+
+    $('body').on('click', '.jsClass-delete-book', function(){
+      var title = $(this).data('id');
+      var searchTitle = title.replace(/ /g, "_");
+      $.ajax({
+            method: 'DELETE',
+            url: '/books/' + searchTitle
+        }).then(function (response) {
+            location.reload();
+        });
+    });
   });
 
 
