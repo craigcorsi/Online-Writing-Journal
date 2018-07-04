@@ -34,7 +34,7 @@ module.exports = function (app, db) {
                     console.log('cookie created successfully');
                 }
                 // load dashboard
-                res.render("layouts/dashboard", {name: username});
+                res.render("layouts/dashboard", { name: username });
 
                 // From Craig Jul-3-18: This was causing problems while redirecting to /dashboard
                 // next(); // <-- important!
@@ -114,7 +114,15 @@ module.exports = function (app, db) {
     });
 
     app.get('/dashboard', function (req, res) {
-        res.render("layouts/dashboard", {name: 'username'});
+        res.render("layouts/dashboard", { name: 'username' });
+        console.log(req.cookies.user)
+        db.Book.findAll({
+            where: {
+                UserId: req.cookies.user
+            }
+        }).then(function(result) {
+            res.json(result[0].dataValues.book_name)
+        })
     });
 
     app.get('/books', function (req, res) {
@@ -123,12 +131,12 @@ module.exports = function (app, db) {
             //     UserId: req.UserId
             // }
         }).then(function (result) {
-            console.log(result);
+            // console.log(result);
             res.json(result);
         });
     });
 
-        // function to load dashboard from another get request
+    // function to load dashboard from another get request
 
 
 
@@ -140,49 +148,49 @@ module.exports = function (app, db) {
 
 
 
-        app.post('/books', function (req, res) {
-            db.Book.create({
-                book_name: req.body.book_name,
-                UserId: req.body.UserId,
-            }).then(function (result) {
-                res.redirect('/dashboard');
-            });
+    app.post('/books', function (req, res) {
+        db.Book.create({
+            book_name: req.body.book_name,
+            UserId: req.body.UserId,
+        }).then(function (result) {
+            res.redirect('/dashboard');
         });
+    });
 
-        app.post('books/:book', function (req, res) {
-            // add chapter to book
-            // redirect to '/books/:book/:chapter' (start working on the chapter)
+    app.post('books/:book', function (req, res) {
+        // add chapter to book
+        // redirect to '/books/:book/:chapter' (start working on the chapter)
+    });
+
+
+
+    app.put('books/:book', function (req, res) {
+        // Update book title
+        // Redirect to Dashboard
+    });
+
+    app.put('books/:book/:chapter', function (req, res) {
+        // update chapter of book
+        // redirect to '/books/:book/:chapter' (reload the page)
+    });
+
+
+
+    app.delete('books/:book', function (req, res) {
+        console.log(req.params.book);
+        db.Book.destroy({
+            where: {
+                id: req.params.book
+            }
+        }).then(function (response) {
+
         });
+    });
+
+    app.delete('books/:book/:chapter', function (req, res) {
+        // delete chapter
+        // redirect to chapter select '/books/book'
+    });
 
 
-
-        app.put('books/:book', function (req, res) {
-            // Update book title
-            // Redirect to Dashboard
-        });
-
-        app.put('books/:book/:chapter', function (req, res) {
-            // update chapter of book
-            // redirect to '/books/:book/:chapter' (reload the page)
-        });
-
-
-
-        app.delete('books/:book', function (req, res) {
-            console.log(req.params.book);
-            db.Book.destroy({
-                where: {
-                    id: req.params.book
-                }
-            }).then(function (response) {
-
-            });
-        });
-
-        app.delete('books/:book/:chapter', function (req, res) {
-            // delete chapter
-            // redirect to chapter select '/books/book'
-        });
-
-
-    }
+}
