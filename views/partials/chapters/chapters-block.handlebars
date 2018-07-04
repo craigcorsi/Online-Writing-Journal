@@ -1,5 +1,36 @@
-<div id="js-list-chapters-here">
-    <!-- LIST CHAPTERS HERE -->
-    CHAPTER ONE <br>
-    CHAPTER TWO
+<div class="jumbotron css-list-chapters-here" id="js-list-chapters-here">
+    <p>Click a chapter title to load your draft!</p>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $.ajax({
+        method: 'GET',
+        url: '/books/1'
+    }).then(function(response){
+        console.log(response);
+        for (var i=0; i < response.length; i++) {
+            var chapterListing = $('<div>');
+            chapterListing.append(`<h4>${response[i].chapter_name}</h4>`);
+            chapterListing.data("id", response[i].id);
+            chapterListing.addClass("css-chapter-listing");
+            $('#js-list-chapters-here').append(chapterListing);
+        }
+    });
+});
+</script>
+
+    {{!-- $.ajax({
+      method: 'GET',
+      url: '/books',
+      data: {}
+    }).then(function (response) {
+      console.log(response)
+      for (var i = 0; i < response.length; i++) {
+        var bookListing = $('<div>');
+        bookListing.append(`<p><span class="label">Book Name:</span>${response[i]}</p>`);
+        bookListing.append(`<button data-id="${response[i]}" class="jsClass-delete-book">Delete Book</button>`);
+        bookListing.append(`<a class="jsClass-edit-book" href="/edit">Edit this Book</a><br><br>`);
+        $('#js-place-books-here').append(bookListing);
+      }
+    }); --}}
