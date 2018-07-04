@@ -32,7 +32,7 @@ header{
 .logout {
   margin-top: 2rem;
 }
-.logout a {
+.logout form button {
   background-color: bisque;
   padding: .5rem;
   border-radius: .25rem;
@@ -146,7 +146,7 @@ body {
 /* *******************************************/
 @media (min-width: 768px) and (max-width: 991px) { 
   .display-4 {
-
+    
   }
   .site-title {
     color:orange;
