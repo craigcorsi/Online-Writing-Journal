@@ -55,10 +55,11 @@
       url: '/books',
       data: {}
     }).then(function (response) {
+      console.log(response)
       for (var i = 0; i < response.length; i++) {
         var bookListing = $('<div>');
-        bookListing.append(`<p><span class="label">Book Name:</span>${response[i].dataValues.book_name}</p>`);
-        bookListing.append(`<button data-id="${this.dataValues.id}" class="jsClass-delete-book">Delete Book</button>`);
+        bookListing.append(`<p><span class="label">Book Name:</span>${response[i]}</p>`);
+        bookListing.append(`<button data-id="${response[i]}" class="jsClass-delete-book">Delete Book</button>`);
         bookListing.append(`<a class="jsClass-edit-book" href="/edit">Edit this Book</a><br><br>`);
         $('#js-place-books-here').append(bookListing);
       }

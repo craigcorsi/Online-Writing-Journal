@@ -4,8 +4,6 @@ module.exports = function (app, db) {
         // validate user's email and password
         var username = req.body.username
         var password = req.body.password
-        console.log(req.body)
-        console.log(username)
 
 
         db.User.findOne({
@@ -20,7 +18,6 @@ module.exports = function (app, db) {
                 // set a cookie
                 // check if client sent cookie
                 var cookie = req.cookies;
-                console.log(cookie)
                 if (cookie === {}) {
                     // no: set a new cookie
                     res.cookie('user', result.id, { maxAge: 900000, httpOnly: false });
@@ -115,25 +112,23 @@ module.exports = function (app, db) {
 
     app.get('/dashboard', function (req, res) {
         res.render("layouts/dashboard", { name: 'username' });
-        console.log(req.cookies.user)
+         
+
+    });
+
+    app.get('/books', function (req, res) {
         db.Book.findAll({
             where: {
                 UserId: req.cookies.user
             }
         }).then(function(result) {
-            res.json(result[0].dataValues.book_name)
+            var bookArray = []
+            for(var i = 0; i < result.length; i++) {
+                bookArray.push(result[i].dataValues.book_name)
+            }
+            res.json(bookArray)
+            bookArray = []
         })
-    });
-
-    app.get('/books', function (req, res) {
-        db.Book.findAll({
-            // where: {
-            //     UserId: req.UserId
-            // }
-        }).then(function (result) {
-            // console.log(result);
-            res.json(result);
-        });
     });
 
     // function to load dashboard from another get request
