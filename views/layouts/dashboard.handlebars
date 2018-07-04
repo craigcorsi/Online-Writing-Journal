@@ -7,48 +7,46 @@
       <h2 class="page-title">
         Welcome to your Dashboard
         <span id="js-username-goes-here-1">{{name}}</span>
-        </h2>
+      </h2>
     </div>
   </div>
 </div>
 
-{{!-- <h2>Welcome to your Dashboard
-  <span id="js-username-goes-here-1">{{name}}</span>
-</h2> --}}
-
-<h2>YOUR DASHBOARD</h2>
 <!-- END HEADER -->
 
-<br>
 
-<div id="js-place-books-here">
+<!-- BEGIN CONTENT -->
+<div class="container">
+  <div class="row">
 
+    <!-- BEGIN BOOKS COLUMN -->
+    <div class="col-12">
+
+
+      <div id="js-place-books-here">
+
+      </div>
+
+
+      <div id="js-new-book-container">
+        <input id="js-new-book-input">
+        <button id="js-new-book-submit">Create New Book!</button>
+      </div>
+
+    </div>
+    <!-- END BOOKS COLUMN -->
+
+
+
+  </div>
 </div>
 
-
-
-<div id="js-new-book-container">
-  <input id="js-new-book-input">
-  <button id="js-new-book-submit">Create New Book!</button>
-</div>
-
-
-<form class="user-options" method="get" action="/logout">
-  <button type="submit">Log Out</button>
-</form>
 
 <!-- END CONTENT -->
 
 
 
 
-
-
-<!-- BEGIN FOOTER -->
-<footer>
-  Copyright
-</footer>
-<!-- END FOOTER -->
 
 <script>
   $(document).ready(function () {
@@ -69,12 +67,4 @@
 
 
 
-</script> 
-
-{{!-- {{#each books}}
-<p>
-  <span class="label">Book Name:</span> {{this.dataValues.book_name}}</p>
-<button data-id="{{this.dataValues.id}}" class="jsClass-delete-book">Delete Book</button>
-<a class="jsClass-edit-book" href="/edit">Edit this Book</a>
-<br>
-<br> {{/each}} --}}
+</script>
