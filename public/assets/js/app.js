@@ -95,7 +95,7 @@ $(document).ready(function () {
             method: 'POST',
             url: 'login/',
             data: loginData
-        }).done(function(retrievedPage){
+        }).done(function (retrievedPage) {
             location.assign('/dashboard');
         });
     });
@@ -129,8 +129,14 @@ $(document).ready(function () {
         event.preventDefault();
         console.log('creating a new book...');
 
+        // var cookieArray = cookieArray.split('=');
+        var cookieArray = document.cookie
+        var cookieArray = cookieArray.split('=')
+         var UserId = parseInt(cookieArray[1].trim())
+
         var data = {
             book_name: $('#js-new-book-input').val().trim(),
+            UserId: UserId
         };
 
         $.ajax({

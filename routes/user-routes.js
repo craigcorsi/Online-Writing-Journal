@@ -23,14 +23,14 @@ module.exports = function (app, db) {
                 console.log(cookie)
                 if (cookie === {}) {
                     // no: set a new cookie
-                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
+                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: false });
                     console.log('cookie created successfully');
 
                 }
                 else {
                     // yes, cookie was already present 
                     res.clearCookie('user');
-                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: true });
+                    res.cookie('user', result.id, { maxAge: 900000, httpOnly: false });
                     console.log('cookie created successfully');
                 }
                 // load dashboard
