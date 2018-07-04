@@ -1,8 +1,3 @@
-/* *******************************************/
-/* DESKTOP (DEFAULT) */
-/* *******************************************/
-
-
 /* GLOBAL SELECTORS */
 html,
 body {
@@ -83,10 +78,6 @@ body {
   margin-bottom:2rem;
 }
 
-
-
-
-
 /* JUMBOTRON */
 .jumbotron {
   font-family: monospace;
@@ -103,12 +94,10 @@ body {
 
   /* The typwriter cursor */
   white-space: nowrap;
-  
   /* Keeps the content on a single line */
   margin: 0 auto;
   /* Gives that scrolling effect as the typing happens */
-  /* letter-spacing: .15em; */
-
+  letter-spacing: .15em;
   /* Adjust as needed */
   /* animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
   display: inline-block; */
