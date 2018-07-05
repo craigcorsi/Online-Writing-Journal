@@ -157,10 +157,10 @@ module.exports = function (app, db) {
         console.log(req.params.book);
         db.Book.destroy({
             where: {
-                book_name: req.params.book
+                id: req.params.book
             }
         }).then(function (response) {
-            res.redirect('/edit');
+            res.json(true);
         });
     });
 

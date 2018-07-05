@@ -76,10 +76,12 @@ console.log(UserId);
     }).then(function (response) {
       console.log(response)
       for (var i = 0; i < response.length; i++) {
-        var bookListing = $('<div class="book-card">');
-        bookListing.append(`<div class="book-spine">${response[i]}</div>`);
-        bookListing.append(`<a href="#" data-id="${response[i]}" class="jsClass-delete-book">Delete</a> | `);
-        bookListing.append(`<a class="jsClass-edit-book" href="/edit">Edit</a><br><br>`);
+        var bookListing = $('<div>');
+        bookListing.append(`<p><span class="label">Book Name:</span>${response[i][0]}</p>`);
+        bookListing.append(`<button data-id="${response[i][1]}" class="jsClass-delete-book">Delete Book</button>`);
+        var editLink = $('<a>').addClass("jsClass-edit-book").text("Edit this Book");
+        editLink.attr('href', `/edit/${UserId}/${response[i][1]}/`);
+        bookListing.append(editLink).append(`<br><br>`);
         $('#js-place-books-here').append(bookListing);
       }
     });
@@ -87,12 +89,15 @@ console.log(UserId);
     $('body').on('click', '.jsClass-delete-book', function (event) {
       event.preventDefault();
       var title = $(this).data('id');
-      var searchTitle = title.replace(/ /g, "_");
+      console.log(title);
+      // var searchTitle = title.replace(/ /g, "_");
       $.ajax({
         method: 'DELETE',
-        url: '/books/' + searchTitle
+        url: '/books/' + title
       }).then(function (response) {
-        location.reload();
+        if (response) {
+          location.reload();
+        }
       });
     });
   });
