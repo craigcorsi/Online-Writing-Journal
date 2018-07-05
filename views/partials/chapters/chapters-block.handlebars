@@ -5,10 +5,22 @@
 </div>
 
 <script type="text/javascript">
+var BookId = {{BookId}};
+console.log("The Book ID is: ", BookId);
 $(document).ready(function(){
     $.ajax({
         method: 'GET',
-        url: '/books/3'
+        url: `/currentbook/${BookId}`
+    }).then(function(response){
+        console.log("The relevent book info is...", response);
+        $('#js-directory-book-title').text(response.book_name);
+        $('#js-edit-book-title-display').text(response.book_name);
+    });
+
+
+    $.ajax({
+        method: 'GET',
+        url: `/books/${BookId}`
     }).then(function(response){
         console.log(response);
         for (var i=0; i < response.length; i++) {
@@ -17,6 +29,7 @@ $(document).ready(function(){
             chapterListing.data("id", response[i].id);
             chapterListing.addClass("css-chapter-listing");
             $('#js-list-chapters-here').append(chapterListing);
+            $('#js-edit-book-title-display').append()
         }
     });
 

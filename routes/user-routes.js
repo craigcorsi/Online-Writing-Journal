@@ -1,5 +1,7 @@
 module.exports = function (app, db) {
 
+    var book_id_placeholder;
+
     app.get('/', function (req, res) {
         console.log(req.cookies)
         res.render("index");
@@ -9,8 +11,9 @@ module.exports = function (app, db) {
         res.render("layouts/dashboard", { name: 'username' });
     });
 
-    app.get('/edit', function (req, res) {
-        res.render("layouts/edit");
+    app.get('/edit/:id', function (req, res) {
+        console.log(req.params);
+        res.render("layouts/edit", { BookId: req.params.id });
     });
 
 
@@ -59,7 +62,6 @@ module.exports = function (app, db) {
             } else {
                 console.log('username or password was incorrect')
                 res.redirect('/');
-                $('#js-username-goes-here-1').text(username);
             }
         });
         // if successful, redirect to dashboard
@@ -157,11 +159,21 @@ module.exports = function (app, db) {
      * 
      */
 
-    // Retrieve chapters of book
+    app.get('/currentbook/:book', function(req, res) {
+        db.Book.findOne({
+            where: {
+                id: req.params.book
+            }
+        }).then(function(response){
+            res.json(response);
+        });
+    });
+
+    // Retrieve chapters of book (on page load)
     app.get('/books/:book', function (req, res) {
         db.Chapter.findAll({
             where: {
-                BookId: req.params.book
+              BookId: req.params.book
             }
         }).then(function(response){
             res.json(response);

@@ -26,12 +26,6 @@ $(document).ready(function () {
         });
     });
 
-
-
-
-
-
-
     // INDEX: Login as existing user
     $('body').on('click', '#js-login-submitButton', function (event) {
         event.preventDefault();
@@ -66,13 +60,6 @@ $(document).ready(function () {
             location.assign('/');
         });
     });
-
-
-
-
-
-
-
 
     // DASHBOARD: create new book
     $('body').on('click', '#js-new-book-submit', function (event) {

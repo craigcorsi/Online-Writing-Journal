@@ -50,6 +50,14 @@
 
 <script>
   $(document).ready(function () {
+    /* $.ajax({
+        method: 'GET',
+        url: `/currentuser/1`
+    }).then(function(response){
+        console.log("The current user is...", response);
+        $('#js-directory-book-title').text(response.book_name);
+    }); */
+
     $.ajax({
       method: 'GET',
       url: '/books',
@@ -60,21 +68,36 @@
         var bookListing = $('<div>');
         bookListing.append(`<p><span class="label">Book Name:</span>${response[i]}</p>`);
         bookListing.append(`<button data-id="${response[i]}" class="jsClass-delete-book">Delete Book</button>`);
-        bookListing.append(`<a class="jsClass-edit-book" href="/edit">Edit this Book</a><br><br>`);
+        var editLink = $('<a>').addClass("jsClass-edit-book").text("Edit this Book");
+        editLink.attr('href', `/edit/3`);
+        bookListing.append(editLink).append(`<br><br>`);
         $('#js-place-books-here').append(bookListing);
       }
     });
 
-    $('body').on('click', '.jsClass-delete-book', function(){
+    $('body').on('click', '.jsClass-delete-book', function (event) {
+      event.preventDefault();
       var title = $(this).data('id');
       var searchTitle = title.replace(/ /g, "_");
       $.ajax({
-            method: 'DELETE',
-            url: '/books/' + searchTitle
-        }).then(function (response) {
-            location.reload();
-        });
+        method: 'DELETE',
+        url: '/books/' + searchTitle
+      }).then(function (response) {
+        location.reload();
+      });
     });
+
+    /* $('body').on('click', '.jsClass-edit-book', function (event) {
+      event.preventDefault();
+      var book_id = $(this).data("BookId");
+      console.log(book_id);
+      $.ajax({
+        method: 'GET',
+        url: `/edit/${book_id}`,
+      }).then(function (response) {
+      });
+    }); */
+
   });
 
 
