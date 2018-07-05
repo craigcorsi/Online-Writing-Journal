@@ -72,7 +72,7 @@ console.log(UserId);
         bookListing.append(`<p><span class="label">Book Name:</span>${response[i][0]}</p>`);
         bookListing.append(`<button data-id="${response[i][0]}" class="jsClass-delete-book">Delete Book</button>`);
         var editLink = $('<a>').addClass("jsClass-edit-book").text("Edit this Book");
-        editLink.attr('href', `/edit/${response[i][1]}`);
+        editLink.attr('href', `/edit/${UserId}/${response[i][1]}/`);
         bookListing.append(editLink).append(`<br><br>`);
         $('#js-place-books-here').append(bookListing);
       }
@@ -89,18 +89,6 @@ console.log(UserId);
         location.reload();
       });
     });
-
-    /* $('body').on('click', '.jsClass-edit-book', function (event) {
-      event.preventDefault();
-      var book_id = $(this).data("BookId");
-      console.log(book_id);
-      $.ajax({
-        method: 'GET',
-        url: `/edit/${book_id}`,
-      }).then(function (response) {
-      });
-    }); */
-
   });
 
 

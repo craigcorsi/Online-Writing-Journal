@@ -11,9 +11,12 @@ module.exports = function (app, db) {
         res.render("layouts/dashboard", { UserId: req.params.user });
     });
 
-    app.get('/edit/:id', function (req, res) {
+    app.get('/edit/:user/:id', function (req, res) {
         console.log(req.params);
-        res.render("layouts/edit", { BookId: req.params.id });
+        res.render("layouts/edit", { 
+            BookId: req.params.id,
+            UserId: req.params.user
+        });
     });
 
 
