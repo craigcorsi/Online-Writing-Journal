@@ -1,13 +1,16 @@
 module.exports = function (app, db) {
 
-    var book_id_placeholder;
-
     app.get('/', function (req, res) {
-        console.log(req.cookies)
+        console.log('cookies: ', req.cookies)
         res.render("index");
     });
 
     app.get('/dashboard/:user', function (req, res) {
+        // console.log('cookies: ', req.cookies);
+        // if (Object.keys(req.cookies).length === 0) {
+        //     console.log('No login!');
+        //     res.json(false);
+        // }
         res.render("layouts/dashboard", { UserId: req.params.user });
     });
 
