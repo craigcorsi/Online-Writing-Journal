@@ -69,17 +69,11 @@ console.log(UserId);
       console.log(response)
       for (var i = 0; i < response.length; i++) {
         var bookListing = $('<div>');
-<<<<<<< Updated upstream
         bookListing.append(`<p><span class="label">Book Name:</span>${response[i][0]}</p>`);
-        bookListing.append(`<button data-id="${response[i][0]}" class="jsClass-delete-book">Delete Book</button>`);
+        bookListing.append(`<button data-id="${response[i][1]}" class="jsClass-delete-book">Delete Book</button>`);
         var editLink = $('<a>').addClass("jsClass-edit-book").text("Edit this Book");
         editLink.attr('href', `/edit/${UserId}/${response[i][1]}/`);
         bookListing.append(editLink).append(`<br><br>`);
-=======
-        bookListing.append(`<p><span class="label">Book Name:</span> ${response[i]}</p>`);
-        bookListing.append(`<button data-id="${response[i]}" class="jsClass-delete-book">Delete Book</button>`);
-        bookListing.append(`<a class="jsClass-edit-book" href="/edit">Edit this Book</a><br><br>`);
->>>>>>> Stashed changes
         $('#js-place-books-here').append(bookListing);
       }
     });
@@ -87,12 +81,15 @@ console.log(UserId);
     $('body').on('click', '.jsClass-delete-book', function (event) {
       event.preventDefault();
       var title = $(this).data('id');
-      var searchTitle = title.replace(/ /g, "_");
+      console.log(title);
+      // var searchTitle = title.replace(/ /g, "_");
       $.ajax({
         method: 'DELETE',
-        url: '/books/' + searchTitle
+        url: '/books/' + title
       }).then(function (response) {
-        location.reload();
+        if (response) {
+          location.reload();
+        }
       });
     });
   });
