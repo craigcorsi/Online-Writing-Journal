@@ -47,7 +47,6 @@
 
 
 $(document).ready(function () {
-
     // INDEX: Register new user
     $('body').on('click', '#js-register-submitButton', function (event) {
         event.preventDefault();

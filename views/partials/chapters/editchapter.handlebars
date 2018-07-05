@@ -31,15 +31,26 @@
             <textarea class="css-edit-chapter-interface-textarea" id="js-edit-chapter-interface-textarea" disabled>{{!-- The current chapter text is loaded here. --}}</textarea>
         </div>
         <form class="user-options" method="" action="/">
-            <button type="submit">Save Changes</button>
-            <button type="submit">Revert to Previous Draft</button>
-            <button type="submit">Delete Entry</button>
+            <div id="js-edit-chapter-interface-main-menu">
+                <button type="submit" id="js-edit-chapter-interface-button-save">Save Changes</button>
+                <button type="submit" id="js-edit-chapter-interface-button-revert">Revert to Previous Draft</button>
+                <button type="submit" id="js-edit-chapter-interface-button-delete">Delete Entry</button>
+            </div>
+            <div id="js-edit-chapter-interface-confirm-delete-menu">
+                <p>Type the chapter name to confirm DELETING this chapter.</p>
+                <input type="text" id="js-edit-chapter-interface-type-chapter-name">
+                <button type="submit" id="js-edit-chapter-interface-button-confirm-delete">Delete</button>
+                <button type="submit" id="js-edit-chapter-interface-button-cancel-delete">Cancel</button>
+            </div>
         </form>
     </div>
 </div>
 
 <script>
     $(document).ready(function () {
+        $('#js-edit-chapter-interface-confirm-delete-menu').hide();
+        var chapterLastLoaded = [];
+
         $('body').on('click', '.css-chapter-listing', function () {
             $('.css-edit-chapter-interface-textarea').css({
                 'cursor': 'default'
@@ -50,12 +61,54 @@
 
             $.ajax({
                 method: 'GET',
-                url: '/books/chapters/' + chapter_id
+                url: '/books/current-book/' + chapter_id
             }).then(function (response) {
-                $('#js-edit-chapter-interface-textarea').text(response);
+                $('#js-edit-chapter-interface-textarea').text(response.chapter_body).focus();
+                $('#js-edit-chapter-interface-type-chapter-name').data('title', response.chapter_name);
+                $('#js-edit-chapter-interface-button-revert').data("previousDraft", response.chapter_body);
             });
         });
 
+        $('body').on('click', "#js-edit-chapter-interface-button-revert", function(event) {
+            event.preventDefault();
+            $('#js-edit-chapter-interface-textarea').val($(this).data("previousDraft")).focus();
+        });
 
+        $('body').on('click', '#js-edit-chapter-interface-button-delete', function (event) {
+            event.preventDefault();
+            $('.css-edit-chapter-interface-textarea').css({
+                'cursor': 'not-allowed'
+            }).prop('disabled', true);
+
+            var chapter_id = '1';
+
+            $('#js-edit-chapter-interface-main-menu').hide();
+            $('#js-edit-chapter-interface-confirm-delete-menu').show();
+        });
+
+        $('body').on('click', '#js-edit-chapter-interface-button-cancel-delete', function(event) {
+            event.preventDefault();
+            $('#js-edit-chapter-interface-main-menu').show();
+            $('#js-edit-chapter-interface-confirm-delete-menu').hide();
+        });
+
+        $('body').on('click', '#js-edit-chapter-interface-button-confirm-delete', function(event) {
+            event.preventDefault();
+            var titleOfChapter = $('#js-edit-chapter-interface-type-chapter-name').data('title');
+            var titleTyped = $('#js-edit-chapter-interface-type-chapter-name').val().trim();
+            if (titleTyped != titleOfChapter) {
+                return;
+            }
+            $.ajax({
+                method: 'DELETE',
+                url: '/books/current-book/16'
+            }).then(function (response) {
+                console.log(response);
+                if (response){
+                    location.reload();
+                }
+            });
+        });
     });
-</script>
+</script> {{!-- It was a chilly night in Las Vegas, Nevada... The dogs were happy, and the balloons were happier. This was the first
+time Tony Stark had ever visited Coney Island... --}}

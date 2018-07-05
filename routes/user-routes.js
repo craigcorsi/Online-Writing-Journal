@@ -175,7 +175,7 @@ module.exports = function (app, db) {
                 id: req.params.chapter
             }
         }).then(function(response){
-            res.json(response.chapter_body);
+            res.json(response);
         });
     });
 
@@ -190,8 +190,13 @@ module.exports = function (app, db) {
     });
 
     app.delete('/books/:book/:chapter', function (req, res) {
-        // delete chapter
-        // redirect to chapter select '/books/book'
+        db.Chapter.destroy({
+            where: {
+                id: req.params.chapter
+            }
+        }).then(function(response){
+            res.json(true);
+        });
     });
 
     // Editor Route: RETURN TO DASHBOARD
