@@ -36,12 +36,16 @@ $(document).ready(function () {
             password: $('#js-login-passwordField').val()
         }
 
+        var cookieArray = document.cookie;
+        cookieArray = cookieArray.split('=');
+        var UserId = parseInt(cookieArray[1].trim());
+
         $.ajax({
             method: 'POST',
             url: 'login/',
             data: loginData
         }).done(function (retrievedPage) {
-            location.assign('/dashboard');
+            location.assign(`/dashboard/${UserId}`);
         });
     });
 

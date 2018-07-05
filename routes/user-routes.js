@@ -7,8 +7,8 @@ module.exports = function (app, db) {
         res.render("index");
     });
 
-    app.get('/dashboard', function (req, res) {
-        res.render("layouts/dashboard", { name: 'username' });
+    app.get('/dashboard/:user', function (req, res) {
+        res.render("layouts/dashboard", { UserId: req.params.user });
     });
 
     app.get('/edit/:id', function (req, res) {
@@ -53,7 +53,8 @@ module.exports = function (app, db) {
                     console.log('cookie created successfully');
                 }
                 // load dashboard
-                res.render("layouts/dashboard", { name: username });
+                console.log(result.dataValues.id);
+                res.render("layouts/dashboard", { UserId: result.dataValues.id });
 
                 // From Craig Jul-3-18: next() was causing problems while redirecting to /dashboard
                 // next(); // <-- important!
@@ -64,8 +65,6 @@ module.exports = function (app, db) {
                 res.redirect('/');
             }
         });
-        // if successful, redirect to dashboard
-        // res.redirect('/dashboard');
     });
 
     app.post('/register', function (req, res) {
@@ -126,7 +125,7 @@ module.exports = function (app, db) {
             book_name: req.body.book_name,
             UserId: req.body.UserId,
         }).then(function (result) {
-            res.redirect('/dashboard');
+            res.redirect(`/dashboard/${req.body.UserId}`);
         });
     });
 
@@ -158,6 +157,16 @@ module.exports = function (app, db) {
      * ROUTES ACCESSED FROM EDITOR
      * 
      */
+
+    app.get('/currentuser/:user', function(req, res) {
+        db.User.findOne({
+            where: {
+                id: req.params.user
+            }
+        }).then(function(response){
+            res.json(response);
+        });
+    });
 
     app.get('/currentbook/:book', function(req, res) {
         db.Book.findOne({

@@ -5,8 +5,8 @@
   <div class="row">
     <div class="col-12">
       <h2 class="page-title">
-        Welcome to your Dashboard
-        <span id="js-username-goes-here-1">{{name}}</span>
+        Welcome to your Dashboard,
+        <span id="js-username-goes-here-1"></span>
       </h2>
     </div>
   </div>
@@ -49,14 +49,17 @@
 
 
 <script>
+var UserId = {{UserId}};
+console.log(UserId);
   $(document).ready(function () {
-    /* $.ajax({
+    console.log(UserId);
+    $.ajax({
         method: 'GET',
-        url: `/currentuser/1`
+        url: `/currentuser/${UserId}`
     }).then(function(response){
-        console.log("The current user is...", response);
-        $('#js-directory-book-title').text(response.book_name);
-    }); */
+        console.log("The current user is...", response.username);
+        $('#js-username-goes-here-1').text(response.username);
+    });
 
     $.ajax({
       method: 'GET',
