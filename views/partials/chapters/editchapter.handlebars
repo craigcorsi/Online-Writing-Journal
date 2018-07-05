@@ -1,41 +1,164 @@
-<!-- steph moved to partial 
-<h2>Editing
-    <span id="js-name-of-book-goes-here"></span>
-</h2>
--->
-
-<form class="user-options" method="get" action="/books/harrypotter">
-    <button type="submit">Return to Chapter Select</button>
-</form>
-
-<form class="user-options" method="get" action="/dashboard">
-    <button type="submit">Back to Dashboard</button>
-</form>
-
-<form class="user-options" method="get" action="/">
-    <button type="submit">Logout</button>
-</form>
-
-{{!--
-<div class="user-options">
-    <button type="submit">Back to Chapter Select</button>
-    <button type="submit">Back to Dashboard</button>
-    <button type="submit">Logout</button>
-</div> --}}
-
-<div>
-    {{> chapters/chapters-block}}
+<div class="css-partial-edit-chapter-">
     <div>
-        <form class="user-options" method="get" action="/books/harrypotter">
-            <button type="submit">Delete</button>
-        </form>
-        <form class="create-form" method="post" action="books/harrypotter/chapter1">
-            <button type="submit">Save</button>
-
-            <div>{{!-- Title of current chapter goes here --}}</div>
-
-            <textarea>{{!-- The current chapter text is loaded here. --}}</textarea>
-
+        <div class="css-edit-chapter-interface" id="js-edit-chapter-interface">
+            <h2 class="css-edit-chapter-interface-title" id="js-edit-chapter-interface-title">{{!-- Title of current chapter goes here --}}</h2>
+            <textarea class="css-edit-chapter-interface-textarea" id="js-edit-chapter-interface-textarea" disabled>{{!-- The current chapter text is loaded here. --}}</textarea>
+        </div>
+        <form class="user-options" method="" action="/">
+            <div id="js-edit-chapter-interface-main-menu">
+                <button type="submit" id="js-edit-chapter-interface-button-save" disabled>Save Changes</button>
+                <button type="submit" id="js-edit-chapter-interface-button-revert" disabled>Revert to Last Saved Draft</button>
+                <button type="submit" id="js-edit-chapter-interface-button-delete" disabled>Delete Entry</button>
+            </div>
+            <div id="js-edit-chapter-interface-confirm-revert-menu">
+                <p>Type 'REVERT' to confirm reverting to the previous draft.</p>
+                <input type="text" id="js-edit-chapter-interface-type-revert">
+                <button type="submit" id="js-edit-chapter-interface-button-confirm-revert">Revert</button>
+                <button type="submit" id="js-edit-chapter-interface-button-cancel-revert">Cancel</button>
+            </div>
+            <div id="js-edit-chapter-interface-confirm-delete-menu">
+                <p>Type the chapter name to confirm DELETING this chapter.</p>
+                <input type="text" id="js-edit-chapter-interface-type-chapter-name">
+                <button type="submit" id="js-edit-chapter-interface-button-confirm-delete">Delete</button>
+                <button type="submit" id="js-edit-chapter-interface-button-cancel-delete">Cancel</button>
+            </div>
         </form>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#js-edit-chapter-interface-confirm-delete-menu').hide();
+        $('#js-edit-chapter-interface-confirm-revert-menu').hide();
+        var chapterLastLoaded = [];
+
+        $('body').on('click', '.css-chapter-listing', function () {
+            var chapter_id = $(this).data('id');
+            console.log(chapter_id);
+
+            $.ajax({
+                method: 'GET',
+                url: '/books/current-book/' + chapter_id
+            }).then(function (response) {
+                console.log(response);
+                $('.css-edit-chapter-interface-textarea').css({
+                    'cursor': 'default'
+                }).prop('disabled', false);
+                $('#js-edit-chapter-interface-button-save').css({
+                    'cursor': 'default'
+                }).prop('disabled', false);
+                $('#js-edit-chapter-interface-button-revert').css({
+                    'cursor': 'default'
+                }).prop('disabled', false);
+                $('#js-edit-chapter-interface-button-delete').css({
+                    'cursor': 'default'
+                }).prop('disabled', false);
+
+                $('#js-edit-chapter-title-display').text(response.chapter_name + " from the book ");
+                $('#js-edit-chapter-interface-textarea').val(response.chapter_body);
+                $('#js-edit-chapter-interface-button-save').data('chapter', response);
+                $('#js-edit-chapter-interface-type-chapter-name').data('title', response.chapter_name);
+                $('#js-edit-chapter-interface-button-confirm-delete').data('id', response.id);
+                $('#js-edit-chapter-interface-button-confirm-revert').data("previousDraft", response.chapter_body);
+            });
+        });
+
+        $('body').on('click', "#js-edit-chapter-interface-button-revert", function (event) {
+            event.preventDefault();
+            $('.css-edit-chapter-interface-textarea').css({
+                'cursor': 'not-allowed'
+            }).prop('disabled', true);
+
+            $('#js-edit-chapter-interface-main-menu').hide();
+            $('#js-edit-chapter-interface-confirm-revert-menu').show();
+        });
+
+        $('body').on('click', '#js-edit-chapter-interface-button-cancel-revert', function (event) {
+            event.preventDefault();
+            $('.css-edit-chapter-interface-textarea').css({
+                'cursor': 'default'
+            }).prop('disabled', false);
+
+            $('#js-edit-chapter-interface-main-menu').show();
+            $('#js-edit-chapter-interface-confirm-revert-menu').hide();
+        });
+
+        $('body').on('click', "#js-edit-chapter-interface-button-confirm-revert", function (event) {
+            event.preventDefault();
+            var messageTyped = $('#js-edit-chapter-interface-type-revert').val().trim();
+            if (messageTyped != "REVERT" && messageTyped != "'REVERT'") {
+                return;
+            }
+            $('.css-edit-chapter-interface-textarea').css({
+                'cursor': 'default'
+            }).prop('disabled', false);
+
+            $('#js-edit-chapter-interface-textarea').val($(this).data("previousDraft")).focus();
+
+            $('#js-edit-chapter-interface-main-menu').show();
+            $('#js-edit-chapter-interface-confirm-revert-menu').hide();
+        });
+
+        $('body').on('click', '#js-edit-chapter-interface-button-delete', function (event) {
+            event.preventDefault();
+            $('.css-edit-chapter-interface-textarea').css({
+                'cursor': 'not-allowed'
+            }).prop('disabled', true);
+
+            $('#js-edit-chapter-interface-main-menu').hide();
+            $('#js-edit-chapter-interface-confirm-delete-menu').show();
+        });
+
+        $('body').on('click', '#js-edit-chapter-interface-button-cancel-delete', function (event) {
+            event.preventDefault();
+            $('.css-edit-chapter-interface-textarea').css({
+                'cursor': 'default'
+            }).prop('disabled', false);
+
+            $('#js-edit-chapter-interface-main-menu').show();
+            $('#js-edit-chapter-interface-confirm-delete-menu').hide();
+        });
+
+        $('body').on('click', '#js-edit-chapter-interface-button-confirm-delete', function (event) {
+            event.preventDefault();
+            var titleOfChapter = $('#js-edit-chapter-interface-type-chapter-name').data('title');
+            var titleTyped = $('#js-edit-chapter-interface-type-chapter-name').val().trim();
+            if (titleTyped != titleOfChapter) {
+                console.log('validation failed');
+                return;
+            }
+            var ChapterId = $('#js-edit-chapter-interface-button-confirm-delete').data('id');
+            console.log(ChapterId);
+            $.ajax({
+                method: 'DELETE',
+                url: `/books/current-book/${ChapterId}`
+            }).then(function (response) {
+                console.log(response);
+                if (response) {
+                    location.reload();
+                }
+            });
+        });
+
+        $('body').on('click', '#js-edit-chapter-interface-button-save', function (event) {
+            event.preventDefault();
+            var previousDraft = $('#js-edit-chapter-interface-button-save').data('chapter');
+            var newDraft = $('#js-edit-chapter-interface-textarea').val().trim();
+            var updatedDraft = {
+                id: previousDraft.id,
+                chapter_body: newDraft
+            };
+            var ChapterId = $('#js-edit-chapter-interface-button-confirm-delete').data('id');
+            $.ajax({
+                method: 'PUT',
+                url: `/books/current-book/${ChapterId}`,
+                data: updatedDraft
+            }).then(function (response) {
+                if (response) {
+                    $('#js-edit-chapter-interface-button-save').text('Saved at ' + Date().slice(4, 24));
+                }
+            });
+        });
+    });
+</script> {{!-- It was a chilly night in Las Vegas, Nevada... The dogs were happy, and the balloons were happier. This was the first
+time Tony Stark had ever visited Coney Island... --}}

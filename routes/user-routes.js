@@ -1,5 +1,33 @@
 module.exports = function (app, db) {
 
+    app.get('/', function (req, res) {
+        console.log('cookies: ', req.cookies)
+        res.render("index");
+    });
+
+    app.get('/dashboard/:user', function (req, res) {
+        // console.log('cookies: ', req.cookies);
+        // if (Object.keys(req.cookies).length === 0) {
+        //     console.log('No login!');
+        //     res.json(false);
+        // }
+        res.render("layouts/dashboard", { UserId: req.params.user });
+    });
+
+    app.get('/edit/:user/:id', function (req, res) {
+        console.log(req.params);
+        res.render("layouts/edit", { 
+            BookId: req.params.id,
+            UserId: req.params.user
+        });
+    });
+
+
+    /**
+     * 
+     * ROUTES ACCESSED FROM HOME PAGE
+     * 
+     */
     app.post('/login', function (req, res, next) {
         // validate user's email and password
         var username = req.body.username
@@ -31,20 +59,19 @@ module.exports = function (app, db) {
                     console.log('cookie created successfully');
                 }
                 // load dashboard
-                res.render("layouts/dashboard", { name: username });
+                console.log(result.dataValues.id);
+                res.json(result.dataValues.id);
+                //res.render("layouts/dashboard", { UserId: result.dataValues.id });
 
-                // From Craig Jul-3-18: This was causing problems while redirecting to /dashboard
+                // From Craig Jul-3-18: next() was causing problems while redirecting to /dashboard
                 // next(); // <-- important!
 
 
             } else {
                 console.log('username or password was incorrect')
                 res.redirect('/');
-                $('#js-username-goes-here-1').text(username);
             }
         });
-        // if successful, redirect to dashboard
-        // res.redirect('/dashboard');
     });
 
     app.post('/register', function (req, res) {
@@ -65,112 +92,51 @@ module.exports = function (app, db) {
                     res.json(dbUser);
                 });
             }
-
         })
     });
 
+
+
+
+
+    /**
+     * 
+     * ROUTES ACCESSED FROM DASHBOARD
+     * 
+     */
+
     app.get('/logout', function (req, res) {
-        res.clearCookie('user')
+        res.clearCookie('user');
         res.redirect('/');
-    })
-
-
-
-    // ???
-    app.get('/books/:book', function (req, res) {
-
-
-
-        // changed by steph on 6-30-18 // this file has been deprecated 
-        // res.render("chapterselect");
-
-        // updated by steph on 6-30-18
-        // this file will call the following partials:
-        // partials/chapters/chapters-block.handlebars
-        // partials/chapters/editchapter.handlebars 
-        // updated by sjaps because file was moved
-        res.render("layouts/edit");
-
-
     });
 
-    // "editchapter.handlebars   deleted"
-    // app.get('/books/:book/:chapter', function (req, res) {
-
-
-    //     res.render("editchapter");
-
-    //     // load the text currently written to the chapter
-
-    //     // create textarea, populate with the current chapter text
-    // });
-
-    app.get('/', function (req, res) {
-        console.log(req.cookies)
-        res.render("index");
-    });
-
-    app.get('/dashboard', function (req, res) {
-        res.render("layouts/dashboard", { name: 'username' });
-         
-
-    });
-
+    // This get request occurs on page load
     app.get('/books', function (req, res) {
         db.Book.findAll({
             where: {
                 UserId: req.cookies.user
             }
-        }).then(function(result) {
+        }).then(function (result) {
             var bookArray = []
-            for(var i = 0; i < result.length; i++) {
-                bookArray.push(result[i].dataValues.book_name)
+            for (var i = 0; i < result.length; i++) {
+                bookArray.push([result[i].dataValues.book_name, result[i].dataValues.id]);
             }
-            res.json(bookArray)
-            bookArray = []
-        })
+            res.json(bookArray);
+            // bookArray = []
+        });
     });
 
-    // function to load dashboard from another get request
-
-
-
-
-
-
-
-
-
-
-
+    // Create new book
     app.post('/books', function (req, res) {
         db.Book.create({
             book_name: req.body.book_name,
             UserId: req.body.UserId,
         }).then(function (result) {
-            res.redirect('/dashboard');
+            res.json(true);
         });
     });
 
-    app.post('books/:book', function (req, res) {
-        // add chapter to book
-        // redirect to '/books/:book/:chapter' (start working on the chapter)
-    });
-
-
-
-    app.put('/books/:book', function (req, res) {
-        // Update book title
-        // Redirect to Dashboard
-    });
-
-    app.put('/books/:book/:chapter', function (req, res) {
-        // update chapter of book
-        // redirect to '/books/:book/:chapter' (reload the page)
-    });
-
-
-
+    // Delete book
     app.delete('/books/:book', function (req, res) {
         console.log(req.params.book);
         db.Book.destroy({
@@ -178,14 +144,100 @@ module.exports = function (app, db) {
                 book_name: req.params.book
             }
         }).then(function (response) {
-            res.json('Success');
+            res.redirect('/edit');
+        });
+    });
+
+    // Edit title of book
+    app.put('/books/:book', function (req, res) {
+        // Update book title
+        // Redirect to Dashboard
+    });
+
+
+
+
+
+
+    /**
+     * 
+     * ROUTES ACCESSED FROM EDITOR
+     * 
+     */
+
+    app.get('/currentuser/:user', function(req, res) {
+        db.User.findOne({
+            where: {
+                id: req.params.user
+            }
+        }).then(function(response){
+            res.json(response);
+        });
+    });
+
+    app.get('/currentbook/:book', function(req, res) {
+        db.Book.findOne({
+            where: {
+                id: req.params.book
+            }
+        }).then(function(response){
+            res.json(response);
+        });
+    });
+
+    // Retrieve chapters of book (on page load)
+    app.get('/books/:book', function (req, res) {
+        db.Chapter.findAll({
+            where: {
+              BookId: req.params.book
+            }
+        }).then(function(response){
+            res.json(response);
+        });
+    });
+
+    // Retrieve contents of a single chapter
+    app.get('/books/:book/:chapter', function(req, res){
+        db.Chapter.findOne({
+            where: {
+                id: req.params.chapter
+            }
+        }).then(function(response){
+            res.json(response);
+        });
+    });
+
+    app.post('/books/:book', function (req, res) {
+        db.Chapter.create({
+            chapter_name: req.body.chapter_name,
+            chapter_body: "",
+            BookId: req.body.BookId,
+        }).then(function (response) {
+            res.json(response);
+        });
+    });
+
+    app.put('/books/:book/:chapter', function (req, res) {
+        db.Chapter.update(req.body, {
+            where: {
+                id: req.body.id
+            }
+        }).then(function(response){
+            res.json(response);
         });
     });
 
     app.delete('/books/:book/:chapter', function (req, res) {
-        // delete chapter
-        // redirect to chapter select '/books/book'
+        db.Chapter.destroy({
+            where: {
+                id: req.params.chapter
+            }
+        }).then(function(response){
+            res.json(true);
+        });
     });
 
+    // Editor Route: RETURN TO DASHBOARD
+    // Editor Route: LOG OUT
 
 }

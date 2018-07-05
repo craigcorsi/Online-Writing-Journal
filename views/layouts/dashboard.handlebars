@@ -5,8 +5,8 @@
   <div class="row">
     <div class="col-12">
       <h2 class="page-title">
-        Welcome to your Dashboard
-        <span id="js-username-goes-here-1">{{name}}</span>
+        Welcome to your Dashboard,
+        <span id="js-username-goes-here-1"></span>
       </h2>
     </div>
   </div>
@@ -49,7 +49,18 @@
 
 
 <script>
+var UserId = {{UserId}};
+console.log(UserId);
   $(document).ready(function () {
+    console.log(UserId);
+    $.ajax({
+        method: 'GET',
+        url: `/currentuser/${UserId}`
+    }).then(function(response){
+        console.log("The current user is...", response.username);
+        $('#js-username-goes-here-1').text(response.username);
+    });
+
     $.ajax({
       method: 'GET',
       url: '/books',
@@ -58,22 +69,25 @@
       console.log(response)
       for (var i = 0; i < response.length; i++) {
         var bookListing = $('<div>');
-        bookListing.append(`<p><span class="label">Book Name:</span>${response[i]}</p>`);
-        bookListing.append(`<button data-id="${response[i]}" class="jsClass-delete-book">Delete Book</button>`);
-        bookListing.append(`<a class="jsClass-edit-book" href="/edit">Edit this Book</a><br><br>`);
+        bookListing.append(`<p><span class="label">Book Name:</span>${response[i][0]}</p>`);
+        bookListing.append(`<button data-id="${response[i][0]}" class="jsClass-delete-book">Delete Book</button>`);
+        var editLink = $('<a>').addClass("jsClass-edit-book").text("Edit this Book");
+        editLink.attr('href', `/edit/${UserId}/${response[i][1]}/`);
+        bookListing.append(editLink).append(`<br><br>`);
         $('#js-place-books-here').append(bookListing);
       }
     });
 
-    $('body').on('click', '.jsClass-delete-book', function(){
+    $('body').on('click', '.jsClass-delete-book', function (event) {
+      event.preventDefault();
       var title = $(this).data('id');
       var searchTitle = title.replace(/ /g, "_");
       $.ajax({
-            method: 'DELETE',
-            url: '/books/' + searchTitle
-        }).then(function (response) {
-            location.reload();
-        });
+        method: 'DELETE',
+        url: '/books/' + searchTitle
+      }).then(function (response) {
+        location.reload();
+      });
     });
   });
 

@@ -159,3 +159,76 @@ body {
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+EDITOR STYLES by Craig Jul-4-18
+
+*/
+
+.css-list-chapters-here {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 0;
+  padding-right: 0;
+  border: 1px solid black;
+  border-radius: 2px;
+  background-color: #eee;
+  text-align: center;
+}
+
+.css-list-chapters-here p {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.css-list-chapters-here input {
+  margin-right: 5px;
+}
+
+.css-chapter-listing {
+  border-top: 1px solid black;
+  text-align: center;
+}
+
+/* .css-list-chapters-here .css-chapter-listing:last-child {
+  border-bottom: 0;
+} */
+
+.css-chapter-listing:hover {
+  background-color: #def;
+  cursor: pointer;
+}
+
+.css-partial-edit-chapter button {
+  display: inline-block;
+  border-radius: 2px;
+  margin: 2px;
+}
+
+.css-edit-chapter-interface-textarea {
+  margin: 3px;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+  margin: 0;
+  min-height: 150px;
+}
+
+.css-edit-chapter-interface-textarea,
+#js-edit-chapter-interface-button-save,
+#js-edit-chapter-interface-button-revert,
+#js-edit-chapter-interface-button-delete
+ {
+  cursor: not-allowed;
+}
