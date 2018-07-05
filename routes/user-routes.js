@@ -1,8 +1,10 @@
 module.exports = function (app, db) {
 
     app.get('/', function (req, res) {
-        console.log('cookies: ', req.cookies)
+        console.log('cookies: ', req.cookies.user)
         res.render("index");
+
+
     });
 
     app.get('/dashboard/:user', function (req, res) {
@@ -15,11 +17,17 @@ module.exports = function (app, db) {
     });
 
     app.get('/edit/:user/:id', function (req, res) {
+
+        if (req.cookies.user) {
+            res.render("layouts/edit", {
+                BookId: req.params.id,
+                UserId: req.params.user
+            });
+        } else {
+            res.redirect('/')
+        }
         console.log(req.params);
-        res.render("layouts/edit", { 
-            BookId: req.params.id,
-            UserId: req.params.user
-        });
+
     });
 
 
@@ -112,18 +120,26 @@ module.exports = function (app, db) {
 
     // This get request occurs on page load
     app.get('/books', function (req, res) {
-        db.Book.findAll({
-            where: {
-                UserId: req.cookies.user
-            }
-        }).then(function (result) {
-            var bookArray = []
-            for (var i = 0; i < result.length; i++) {
-                bookArray.push([result[i].dataValues.book_name, result[i].dataValues.id]);
-            }
-            res.json(bookArray);
-            // bookArray = []
-        });
+        if (req.cookies.user) {
+
+            db.Book.findAll({
+                where: {
+                    UserId: req.cookies.user
+                }
+            }).then(function (result) {
+                var bookArray = []
+                for (var i = 0; i < result.length; i++) {
+                    bookArray.push([result[i].dataValues.book_name, result[i].dataValues.id]);
+                }
+                res.json(bookArray);
+                // bookArray = []
+            });
+
+        } else {
+            res.redirect('/')
+        }
+
+
     });
 
     // Create new book
@@ -165,56 +181,99 @@ module.exports = function (app, db) {
      * 
      */
 
-    app.get('/currentuser/:user', function(req, res) {
-        db.User.findOne({
-            where: {
-                id: req.params.user
-            }
-        }).then(function(response){
-            res.json(response);
-        });
+    app.get('/currentuser/:user', function (req, res) {
+
+        if (req.cookies.user) {
+
+            db.User.findOne({
+                where: {
+                    id: req.params.user
+                }
+            }).then(function (response) {
+                res.json(response);
+            });
+
+        } else {
+            res.redirect('/')
+        }
+
     });
 
-    app.get('/currentbook/:book', function(req, res) {
-        db.Book.findOne({
-            where: {
-                id: req.params.book
-            }
-        }).then(function(response){
-            res.json(response);
-        });
+    app.get('/currentbook/:book', function (req, res) {
+
+
+        if (req.cookies.user) {
+
+            db.Book.findOne({
+                where: {
+                    id: req.params.book
+                }
+            }).then(function (response) {
+                res.json(response);
+            });
+
+        } else {
+            res.redirect('/')
+        }
+
     });
 
     // Retrieve chapters of book (on page load)
     app.get('/books/:book', function (req, res) {
-        db.Chapter.findAll({
-            where: {
-              BookId: req.params.book
-            }
-        }).then(function(response){
-            res.json(response);
-        });
+
+        if (req.cookies.user) {
+
+            db.Chapter.findAll({
+                where: {
+                    BookId: req.params.book
+                }
+            }).then(function (response) {
+                res.json(response);
+            });
+        } else {
+            res.redirect('/')
+        }
+
     });
 
     // Retrieve contents of a single chapter
-    app.get('/books/:book/:chapter', function(req, res){
-        db.Chapter.findOne({
-            where: {
-                id: req.params.chapter
-            }
-        }).then(function(response){
-            res.json(response);
-        });
+    app.get('/books/:book/:chapter', function (req, res) {
+
+
+        if (req.cookies.user) {
+
+            db.Chapter.findOne({
+                where: {
+                    id: req.params.chapter
+                }
+            }).then(function (response) {
+                res.json(response);
+            });
+        } else {
+            res.redirect('/')
+        }
+
+
     });
 
     app.post('/books/:book', function (req, res) {
-        db.Chapter.create({
-            chapter_name: req.body.chapter_name,
-            chapter_body: "",
-            BookId: req.body.BookId,
-        }).then(function (response) {
-            res.json(response);
-        });
+
+        if (req.cookies.user) {
+
+            db.Chapter.create({
+                chapter_name: req.body.chapter_name,
+                chapter_body: "",
+                BookId: req.body.BookId,
+            }).then(function (response) {
+                res.json(response);
+            });
+        } else {
+            res.redirect('/')
+        }
+
+
+
+
     });
 
     app.put('/books/:book/:chapter', function (req, res) {
@@ -222,7 +281,7 @@ module.exports = function (app, db) {
             where: {
                 id: req.body.id
             }
-        }).then(function(response){
+        }).then(function (response) {
             res.json(response);
         });
     });
@@ -232,7 +291,7 @@ module.exports = function (app, db) {
             where: {
                 id: req.params.chapter
             }
-        }).then(function(response){
+        }).then(function (response) {
             res.json(true);
         });
     });
