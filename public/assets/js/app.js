@@ -1,51 +1,3 @@
-// Collect all http requests into one file
-
-// Maybe write ONE $.ajax command? And feed in everything else as parameters?
-
-/**
- * Steps:
- * 
- * get ONE ajax get request functioning, for logging into the dashboard
- * 
- * get individual ajax functions running in separate functions
- * 
- * at the VERY LEAST, determine all parameters needed for each request, figure out what sql code needs to be written
- * 
- * implement pageload functionality to parse JSON received, build divs, and append them to the DOM.
- * list of books
- * list of chapters
- * chapter text
- * 
- *
- */
-
-// function redirect(url) {
-//     window.location.replace(url);
-// }
-
-// function getFromJournal(url) {
-//     $.ajax({
-//         method: 'GET',
-//         url: url
-//     }).then(function (response) {
-//         console.log(response);
-//     });
-// }
-
-// function postToJournal(url, data) {
-//     $.ajax({
-//         method: 'POST',
-//         url: url,
-//         data: data
-//     }).then(function (response) {
-//         console.log(response);
-//     });
-// }
-
-
-
-
-
 $(document).ready(function () {
     // INDEX: Register new user
     $('body').on('click', '#js-register-submitButton', function (event) {
@@ -127,10 +79,9 @@ $(document).ready(function () {
         event.preventDefault();
         console.log('creating a new book...');
 
-        // var cookieArray = cookieArray.split('=');
-        var cookieArray = document.cookie
-        var cookieArray = cookieArray.split('=')
-         var UserId = parseInt(cookieArray[1].trim())
+        var cookieArray = document.cookie;
+        cookieArray = cookieArray.split('=');
+        var UserId = parseInt(cookieArray[1].trim());
 
         var data = {
             book_name: $('#js-new-book-input').val().trim(),
@@ -166,17 +117,3 @@ $(document).ready(function () {
         });
     });
 });
-
-
-
-
-
-
-
- /**
-  * Steps for server:
-  * 
-  * recieve the ONE ajax request (make sure the html route is working)
-  * 
-  * then receive several
-  */

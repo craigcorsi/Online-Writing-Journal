@@ -1,5 +1,7 @@
 <div class="jumbotron css-list-chapters-here" id="js-list-chapters-here">
     <p>Click a chapter title to load your draft!</p>
+    <p>Or create a new chapter!</p><input type="text" id="js-edit-chapter-creator-input"><!--
+    --><button type="submit" id="js-edit-chapter-creator-button">Create</button>
 </div>
 
 <script type="text/javascript">
@@ -16,6 +18,29 @@ $(document).ready(function(){
             chapterListing.addClass("css-chapter-listing");
             $('#js-list-chapters-here').append(chapterListing);
         }
+    });
+
+
+    $('body').on('click', '#js-edit-chapter-creator-button', function(event){
+        event.preventDefault();
+        if (!($('#js-edit-chapter-creator-input').val().trim())){
+            return;
+        }
+
+        var newChapter = {
+            chapter_name: $('#js-edit-chapter-creator-input').val().trim(),
+            BookId: '3'
+        };
+
+        console.log(newChapter);
+
+        $.ajax({
+            method: 'POST',
+            url: '/books/3',
+            data: newChapter
+        }).then(function (response) {
+            location.reload();
+        });
     });
 });
 </script>

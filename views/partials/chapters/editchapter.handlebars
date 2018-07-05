@@ -32,9 +32,15 @@
         </div>
         <form class="user-options" method="" action="/">
             <div id="js-edit-chapter-interface-main-menu">
-                <button type="submit" id="js-edit-chapter-interface-button-save">Save Changes</button>
-                <button type="submit" id="js-edit-chapter-interface-button-revert">Revert to Previous Draft</button>
-                <button type="submit" id="js-edit-chapter-interface-button-delete">Delete Entry</button>
+                <button type="submit" id="js-edit-chapter-interface-button-save" disabled>Save Changes</button>
+                <button type="submit" id="js-edit-chapter-interface-button-revert" disabled>Revert to Last Saved Draft</button>
+                <button type="submit" id="js-edit-chapter-interface-button-delete" disabled>Delete Entry</button>
+            </div>
+            <div id="js-edit-chapter-interface-confirm-revert-menu">
+                <p>Type 'REVERT' to confirm reverting to the previous draft.</p>
+                <input type="text" id="js-edit-chapter-interface-type-revert">
+                <button type="submit" id="js-edit-chapter-interface-button-confirm-revert">Revert</button>
+                <button type="submit" id="js-edit-chapter-interface-button-cancel-revert">Cancel</button>
             </div>
             <div id="js-edit-chapter-interface-confirm-delete-menu">
                 <p>Type the chapter name to confirm DELETING this chapter.</p>
@@ -49,13 +55,10 @@
 <script>
     $(document).ready(function () {
         $('#js-edit-chapter-interface-confirm-delete-menu').hide();
+        $('#js-edit-chapter-interface-confirm-revert-menu').hide();
         var chapterLastLoaded = [];
 
         $('body').on('click', '.css-chapter-listing', function () {
-            $('.css-edit-chapter-interface-textarea').css({
-                'cursor': 'default'
-            }).prop('disabled', false);
-
             var chapter_id = $(this).data('id');
             console.log(chapter_id);
 
@@ -63,15 +66,61 @@
                 method: 'GET',
                 url: '/books/current-book/' + chapter_id
             }).then(function (response) {
-                $('#js-edit-chapter-interface-textarea').text(response.chapter_body).focus();
+                console.log(response.chapter_body);
+                $('.css-edit-chapter-interface-textarea').css({
+                    'cursor': 'default'
+                }).prop('disabled', false);
+                $('#js-edit-chapter-interface-button-save').css({
+                    'cursor': 'default'
+                }).prop('disabled', false);
+                $('#js-edit-chapter-interface-button-revert').css({
+                    'cursor': 'default'
+                }).prop('disabled', false);
+                $('#js-edit-chapter-interface-button-delete').css({
+                    'cursor': 'default'
+                }).prop('disabled', false);
+
+                $('#js-edit-chapter-interface-textarea').val(response.chapter_body);
+                $('#js-edit-chapter-interface-button-save').data('chapter', response);
                 $('#js-edit-chapter-interface-type-chapter-name').data('title', response.chapter_name);
-                $('#js-edit-chapter-interface-button-revert').data("previousDraft", response.chapter_body);
+                $('#js-edit-chapter-interface-button-confirm-revert').data("previousDraft", response.chapter_body);
             });
         });
 
-        $('body').on('click', "#js-edit-chapter-interface-button-revert", function(event) {
+        $('body').on('click', "#js-edit-chapter-interface-button-revert", function (event) {
             event.preventDefault();
+            $('.css-edit-chapter-interface-textarea').css({
+                'cursor': 'not-allowed'
+            }).prop('disabled', true);
+
+            $('#js-edit-chapter-interface-main-menu').hide();
+            $('#js-edit-chapter-interface-confirm-revert-menu').show();
+        });
+
+        $('body').on('click', '#js-edit-chapter-interface-button-cancel-revert', function (event) {
+            event.preventDefault();
+            $('.css-edit-chapter-interface-textarea').css({
+                'cursor': 'default'
+            }).prop('disabled', false);
+
+            $('#js-edit-chapter-interface-main-menu').show();
+            $('#js-edit-chapter-interface-confirm-revert-menu').hide();
+        });
+
+        $('body').on('click', "#js-edit-chapter-interface-button-confirm-revert", function (event) {
+            event.preventDefault();
+            var messageTyped = $('#js-edit-chapter-interface-type-revert').val().trim();
+            if (messageTyped != "REVERT" && messageTyped != "'REVERT'") {
+                return;
+            }
+            $('.css-edit-chapter-interface-textarea').css({
+                'cursor': 'default'
+            }).prop('disabled', false);
+
             $('#js-edit-chapter-interface-textarea').val($(this).data("previousDraft")).focus();
+
+            $('#js-edit-chapter-interface-main-menu').show();
+            $('#js-edit-chapter-interface-confirm-revert-menu').hide();
         });
 
         $('body').on('click', '#js-edit-chapter-interface-button-delete', function (event) {
@@ -80,19 +129,21 @@
                 'cursor': 'not-allowed'
             }).prop('disabled', true);
 
-            var chapter_id = '1';
-
             $('#js-edit-chapter-interface-main-menu').hide();
             $('#js-edit-chapter-interface-confirm-delete-menu').show();
         });
 
-        $('body').on('click', '#js-edit-chapter-interface-button-cancel-delete', function(event) {
+        $('body').on('click', '#js-edit-chapter-interface-button-cancel-delete', function (event) {
             event.preventDefault();
+            $('.css-edit-chapter-interface-textarea').css({
+                'cursor': 'default'
+            }).prop('disabled', false);
+
             $('#js-edit-chapter-interface-main-menu').show();
             $('#js-edit-chapter-interface-confirm-delete-menu').hide();
         });
 
-        $('body').on('click', '#js-edit-chapter-interface-button-confirm-delete', function(event) {
+        $('body').on('click', '#js-edit-chapter-interface-button-confirm-delete', function (event) {
             event.preventDefault();
             var titleOfChapter = $('#js-edit-chapter-interface-type-chapter-name').data('title');
             var titleTyped = $('#js-edit-chapter-interface-type-chapter-name').val().trim();
@@ -104,8 +155,27 @@
                 url: '/books/current-book/16'
             }).then(function (response) {
                 console.log(response);
-                if (response){
+                if (response) {
                     location.reload();
+                }
+            });
+        });
+
+        $('body').on('click', '#js-edit-chapter-interface-button-save', function (event) {
+            event.preventDefault();
+            var previousDraft = $('#js-edit-chapter-interface-button-save').data('chapter');
+            var newDraft = $('#js-edit-chapter-interface-textarea').val().trim();
+            var updatedDraft = {
+                id: previousDraft.id,
+                chapter_body: newDraft
+            };
+            $.ajax({
+                method: 'PUT',
+                url: '/books/current-book/16',
+                data: updatedDraft
+            }).then(function (response) {
+                if (response) {
+                    $('#js-edit-chapter-interface-button-save').text('Saved at ' + Date().slice(4, 24));
                 }
             });
         });

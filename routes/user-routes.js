@@ -179,14 +179,24 @@ module.exports = function (app, db) {
         });
     });
 
-    app.post('books/:book', function (req, res) {
-        // add chapter to book
-        // redirect to '/books/:book/:chapter' (start working on the chapter)
+    app.post('/books/:book', function (req, res) {
+        db.Chapter.create({
+            chapter_name: req.body.chapter_name,
+            chapter_body: "",
+            BookId: req.body.BookId,
+        }).then(function (response) {
+            res.json(response);
+        });
     });
 
     app.put('/books/:book/:chapter', function (req, res) {
-        // update chapter of book
-        // redirect to '/books/:book/:chapter' (reload the page)
+        db.Chapter.update(req.body, {
+            where: {
+                id: req.body.id
+            }
+        }).then(function(response){
+            res.json(response);
+        });
     });
 
     app.delete('/books/:book/:chapter', function (req, res) {
