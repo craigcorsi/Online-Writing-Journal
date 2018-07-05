@@ -83,6 +83,28 @@ body {
   font-family: monospace;
 }
 
+/* BUTTON COLORS */
+.btn-primary {
+  color: #fff;
+  background-color: brown;
+  border-color: brown;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: darkred;
+  border-color: darkred;
+}
+.btn-secondary {
+  color: #000;
+  background-color: bisque;
+  border-color: bisque;
+}
+.btn-secondary:hover {
+  color: #000000;
+  background-color: bisque;
+  border-color: bisque;
+}
+
 /* LOGIN */
 
 .typewriter h1 {
@@ -127,7 +149,20 @@ body {
   }
 }
 
-/* FOOTER */
+/* BOOKS ON DASHBOARD */
+.book-container {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+}
+.book-card {
+ width: 300px;
+}
+.book-spine {
+  background-color: lightgrey;
+  font-size: 1.5em;
+  padding: .5em;
+}
 
 
 /* *******************************************/

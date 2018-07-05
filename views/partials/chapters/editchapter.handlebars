@@ -4,6 +4,8 @@
 </h2>
 -->
 
+
+{{!-- steph 7/5/18 these links are elsewhere
 <form class="user-options" method="get" action="/books/harrypotter">
     <button type="submit">Return to Chapter Select</button>
 </form>
@@ -14,9 +16,7 @@
 
 <form class="user-options" method="get" action="/">
     <button type="submit">Logout</button>
-</form>
-
-{{!--
+</form> --}} {{!--
 <div class="user-options">
     <button type="submit">Back to Chapter Select</button>
     <button type="submit">Back to Dashboard</button>
@@ -24,17 +24,38 @@
 </div> --}}
 
 <div>
-    {{> chapters/chapters-block}}
+    {{!-- steph 7/5/18 already being {{> chapters/chapters-block}} --}}
+
     <div>
+        <h2>
+            Chapter One: The Begining
+        </h2>
         <form class="user-options" method="get" action="/books/harrypotter">
-            <button type="submit">Delete</button>
+            <button type="button" class="btn btn-primary">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                Delete
+            </button>
         </form>
         <form class="create-form" method="post" action="books/harrypotter/chapter1">
-            <button type="submit">Save</button>
+            
+            {{!-- <button type="submit">Save</button> --}}
+            <button type="button" class="btn btn-secondary">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                Save
+            </button>
 
-            <div>{{!-- Title of current chapter goes here --}}</div>
+            {{!-- 
+            <div>
+                Title of current chapter goes here 
+            </div>
+            --}}
 
-            <textarea>{{!-- The current chapter text is loaded here. --}}</textarea>
+            {{!-- steph replaced 7/5/18
+            <textarea>The current chapter text is loaded here.</textarea> 
+            --}}
+            <div class="form-group">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="40"></textarea>
+            </div>
 
         </form>
     </div>
