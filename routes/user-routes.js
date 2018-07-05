@@ -8,12 +8,15 @@ module.exports = function (app, db) {
     });
 
     app.get('/dashboard/:user', function (req, res) {
-        // console.log('cookies: ', req.cookies);
-        // if (Object.keys(req.cookies).length === 0) {
-        //     console.log('No login!');
-        //     res.json(false);
-        // }
-        res.render("layouts/dashboard", { UserId: req.params.user });
+
+        if (req.cookies.user) {
+            res.render("layouts/dashboard", { UserId: req.params.user });
+
+        } else {
+            res.redirect('/')
+        }
+
+
     });
 
     app.get('/edit/:user/:id', function (req, res) {
