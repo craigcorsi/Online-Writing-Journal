@@ -36,16 +36,17 @@ $(document).ready(function () {
             password: $('#js-login-passwordField').val()
         }
 
-        var cookieArray = document.cookie;
-        cookieArray = cookieArray.split('=');
-        var UserId = parseInt(cookieArray[1].trim());
+        // var cookieArray = document.cookie;
+        // cookieArray = cookieArray.split('=');
+        // var UserId = parseInt(cookieArray[1].trim());
 
         $.ajax({
             method: 'POST',
             url: 'login/',
             data: loginData
-        }).done(function (retrievedPage) {
-            location.assign(`/dashboard/${UserId}`);
+        }).done(function (retrievedId) {
+            console.log(retrievedId);
+            location.assign(`/dashboard/${retrievedId}`);
         });
     });
 
@@ -81,11 +82,12 @@ $(document).ready(function () {
 
         $.ajax({
             method: 'POST',
-            url: 'books/',
+            url: '/books',
             data: data
         }).then(function (response) {
-            console.log('Your journal page request was received! Proceed...');
-            location.reload();
+            if (response) {
+                location.reload();
+            }
         });
     });
 

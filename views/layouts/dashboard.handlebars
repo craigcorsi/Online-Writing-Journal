@@ -69,10 +69,10 @@ console.log(UserId);
       console.log(response)
       for (var i = 0; i < response.length; i++) {
         var bookListing = $('<div>');
-        bookListing.append(`<p><span class="label">Book Name:</span>${response[i]}</p>`);
-        bookListing.append(`<button data-id="${response[i]}" class="jsClass-delete-book">Delete Book</button>`);
+        bookListing.append(`<p><span class="label">Book Name:</span>${response[i][0]}</p>`);
+        bookListing.append(`<button data-id="${response[i][0]}" class="jsClass-delete-book">Delete Book</button>`);
         var editLink = $('<a>').addClass("jsClass-edit-book").text("Edit this Book");
-        editLink.attr('href', `/edit/3`);
+        editLink.attr('href', `/edit/${response[i][1]}`);
         bookListing.append(editLink).append(`<br><br>`);
         $('#js-place-books-here').append(bookListing);
       }

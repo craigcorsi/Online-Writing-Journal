@@ -54,7 +54,8 @@ module.exports = function (app, db) {
                 }
                 // load dashboard
                 console.log(result.dataValues.id);
-                res.render("layouts/dashboard", { UserId: result.dataValues.id });
+                res.json(result.dataValues.id);
+                //res.render("layouts/dashboard", { UserId: result.dataValues.id });
 
                 // From Craig Jul-3-18: next() was causing problems while redirecting to /dashboard
                 // next(); // <-- important!
@@ -112,7 +113,7 @@ module.exports = function (app, db) {
         }).then(function (result) {
             var bookArray = []
             for (var i = 0; i < result.length; i++) {
-                bookArray.push(result[i].dataValues.book_name)
+                bookArray.push([result[i].dataValues.book_name, result[i].dataValues.id]);
             }
             res.json(bookArray);
             // bookArray = []
@@ -125,7 +126,7 @@ module.exports = function (app, db) {
             book_name: req.body.book_name,
             UserId: req.body.UserId,
         }).then(function (result) {
-            res.redirect(`/dashboard/${req.body.UserId}`);
+            res.json(true);
         });
     });
 
