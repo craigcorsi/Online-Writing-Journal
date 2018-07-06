@@ -87,14 +87,12 @@ body {
   font-family: monospace;
 }
 
-/* BUTTON COLORS */
-
+/* BUTTONS */
 .btn-primary {
   color: #fff;
   background-color: brown;
   border-color: brown;
 }
-
 .btn-primary:hover {
   color: #fff;
   background-color: darkred;
@@ -109,13 +107,16 @@ body {
   box-shadow: 0 0 0 0.2rem rgba(165, 42, 42, .5)
   ;
 }
-
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #fff;
+  background-color: brown;
+  border-color: brown;
+}
 .btn-secondary {
   color: #000;
   background-color: bisque;
   border-color: bisque;
 }
-
 .btn-secondary:hover {
   color: #000000;
   background-color: tan;
@@ -130,6 +131,17 @@ body {
   box-shadow: 0 0 0 0.2rem rgba(255, 228, 196, .5)
   ;
 }
+.btn-secondary.disabled, .btn-secondary:disabled {
+  color: #000;
+  background-color: bisque;
+  border-color: bisque;
+}
+
+/* JOURNAL ENTRY PAGE */
+.chapter-entry button {
+  margin-bottom:1em;
+}
+
 
 /* LOGIN */
 
@@ -173,7 +185,6 @@ body {
 }
 
 /* BOOKS ON DASHBOARD */
-
 .book-container {
   display: flex;
   justify-content: space-between;
@@ -191,6 +202,12 @@ body {
   margin-bottom: .5em;
   padding: .5em;
 }
+
+/* EDIT PAGE */
+.timestamp {
+  margin-bottom: 1em;
+}
+
 
 /* *******************************************/
 
@@ -230,24 +247,24 @@ EDITOR STYLES by Craig Jul-4-18
 */
 
 .css-list-chapters-here {
-  padding-top: 10px;
+  /* padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 0;
   padding-right: 0;
   border: 1px solid black;
   border-radius: 2px;
   background-color: #eee;
-  text-align: center;
+  text-align: center; */
 }
 
-.css-list-chapters-here p {
+/* .css-list-chapters-here p {
   padding-left: 5px;
   padding-right: 5px;
-}
+} */
 
-.css-list-chapters-here input {
+/* .css-list-chapters-here input {
   margin-right: 5px;
-}
+} */
 
 .css-chapter-listing {
   border-top: 1px solid black;

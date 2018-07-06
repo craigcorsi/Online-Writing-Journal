@@ -2,25 +2,47 @@
     <div>
         <div class="css-edit-chapter-interface" id="js-edit-chapter-interface">
             <h2 class="css-edit-chapter-interface-title" id="js-edit-chapter-interface-title">{{!-- Title of current chapter goes here --}}</h2>
-                    <form class="user-options" method="" action="/">
-            <div id="js-edit-chapter-interface-main-menu">
-                <button type="submit" id="js-edit-chapter-interface-button-save" disabled>Save Changes</button>
-                <button type="submit" id="js-edit-chapter-interface-button-revert" disabled>Revert to Last Saved Draft</button>
-                <button type="submit" id="js-edit-chapter-interface-button-delete" disabled>Delete Entry</button>
-            </div>
-            <div id="js-edit-chapter-interface-confirm-revert-menu">
-                <p>Type 'REVERT' to confirm reverting to the previous draft.</p>
-                <input type="text" id="js-edit-chapter-interface-type-revert">
-                <button type="submit" id="js-edit-chapter-interface-button-confirm-revert">Revert</button>
-                <button type="submit" id="js-edit-chapter-interface-button-cancel-revert">Cancel</button>
-            </div>
-            <div id="js-edit-chapter-interface-confirm-delete-menu">
-                <p>Type the chapter name to confirm DELETING this chapter.</p>
-                <input type="text" id="js-edit-chapter-interface-type-chapter-name">
-                <button type="submit" id="js-edit-chapter-interface-button-confirm-delete">Delete</button>
-                <button type="submit" id="js-edit-chapter-interface-button-cancel-delete">Cancel</button>
-            </div>
-        </form>
+            <div class="js-saved-timestamp timestamp"></div>
+            <form class="user-options chapter-entry" method="" action="/">
+                <div id="js-edit-chapter-interface-main-menu">
+                    <button type="submit" id="js-edit-chapter-interface-button-save" class="btn btn-primary" disabled>
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                        Save Changes
+                    </button>
+                    <button type="submit" id="js-edit-chapter-interface-button-revert" class="btn btn-secondary" disabled>
+                        <i class="fa fa-undo" aria-hidden="true"></i>
+                        Revert to Last Saved Draft
+                    </button>
+                    <button type="submit" id="js-edit-chapter-interface-button-delete" class="btn btn-secondary" disabled>
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        Delete Entry
+                    </button>
+                </div>
+                <div id="js-edit-chapter-interface-confirm-revert-menu">
+                    <p>Type 'REVERT' to confirm reverting to the previous draft.</p>
+                    <input type="text" id="js-edit-chapter-interface-type-revert">
+                    <button type="submit" id="js-edit-chapter-interface-button-confirm-revert" class="btn btn-primary">
+                        <i class="fa fa-undo" aria-hidden="true"></i>
+                        Revert
+                    </button>
+                    <button type="submit" id="js-edit-chapter-interface-button-cancel-revert" class="btn btn-secondary">
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                        Cancel
+                    </button>
+                </div>
+                <div id="js-edit-chapter-interface-confirm-delete-menu">
+                    <p>Type the chapter name to confirm DELETING this chapter.</p>
+                    <input type="text" id="js-edit-chapter-interface-type-chapter-name">
+                    <button type="submit" id="js-edit-chapter-interface-button-confirm-delete" class="btn btn-primary">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        Delete
+                    </button>
+                    <button type="submit" id="js-edit-chapter-interface-button-cancel-delete" class="btn btn-secondary">
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                        Cancel
+                    </button>
+                </div>
+            </form>
             <textarea class="css-edit-chapter-interface-textarea" id="js-edit-chapter-interface-textarea" disabled>{{!-- The current chapter text is loaded here. --}}</textarea>
         </div>
 
@@ -151,7 +173,9 @@
                 data: updatedDraft
             }).then(function (response) {
                 if (response) {
-                    $('#js-edit-chapter-interface-button-save').text('Saved at ' + Date().slice(4, 24));
+                    // $('#js-edit-chapter-interface-button-save').text('Saved at ' + Date().slice(4, 24));
+                    $('.js-saved-timestamp').text('Last saved at ' + Date().slice(4, 24));
+                    
                 }
             });
         });
