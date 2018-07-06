@@ -62,3 +62,7 @@ typings/
 
 # Steph's additions
 config/config.json
+
+# SASS files
+.sass-cache*
+*.map 
