@@ -1,7 +1,6 @@
 module.exports = function (app, db) {
 
     app.get('/', function (req, res) {
-        console.log('cookies: ', req.cookies.user)
         res.render("index");
 
 
@@ -29,7 +28,6 @@ module.exports = function (app, db) {
         } else {
             res.redirect('/')
         }
-        console.log(req.params);
 
     });
 
@@ -52,7 +50,6 @@ module.exports = function (app, db) {
         }).then(function (result) {
             var savedPass = result.dataValues.password;
             if (password === savedPass) {
-                console.log('logged in')
 
                 // set a cookie
                 // check if client sent cookie
@@ -60,17 +57,14 @@ module.exports = function (app, db) {
                 if (cookie === {}) {
                     // no: set a new cookie
                     res.cookie('user', result.id, { maxAge: 900000, httpOnly: false });
-                    console.log('cookie created successfully');
 
                 }
                 else {
                     // yes, cookie was already present 
                     res.clearCookie('user');
                     res.cookie('user', result.id, { maxAge: 900000, httpOnly: false });
-                    console.log('cookie created successfully');
                 }
                 // load dashboard
-                console.log(result.dataValues.id);
                 res.json(result.dataValues.id);
                 //res.render("layouts/dashboard", { UserId: result.dataValues.id });
 
@@ -79,7 +73,6 @@ module.exports = function (app, db) {
 
 
             } else {
-                console.log('username or password was incorrect')
                 res.redirect('/');
             }
         });
@@ -88,7 +81,6 @@ module.exports = function (app, db) {
     app.post('/register', function (req, res) {
         // add user information to db
 
-        console.log(req.body)
 
         db.User.findOne({
             where: {
@@ -157,7 +149,6 @@ module.exports = function (app, db) {
 
     // Delete book
     app.delete('/books/:book', function (req, res) {
-        console.log(req.params.book);
         db.Book.destroy({
             where: {
                 id: req.params.book

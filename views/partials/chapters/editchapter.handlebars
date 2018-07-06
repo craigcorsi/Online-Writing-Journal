@@ -34,13 +34,11 @@
 
         $('body').on('click', '.css-chapter-listing', function () {
             var chapter_id = $(this).data('id');
-            console.log(chapter_id);
 
             $.ajax({
                 method: 'GET',
                 url: '/books/current-book/' + chapter_id
             }).then(function (response) {
-                console.log(response);
                 $('.css-edit-chapter-interface-textarea').css({
                     'cursor': 'default'
                 }).prop('disabled', false);
@@ -124,16 +122,13 @@
             var titleOfChapter = $('#js-edit-chapter-interface-type-chapter-name').data('title');
             var titleTyped = $('#js-edit-chapter-interface-type-chapter-name').val().trim();
             if (titleTyped != titleOfChapter) {
-                console.log('validation failed');
                 return;
             }
             var ChapterId = $('#js-edit-chapter-interface-button-confirm-delete').data('id');
-            console.log(ChapterId);
             $.ajax({
                 method: 'DELETE',
                 url: `/books/current-book/${ChapterId}`
             }).then(function (response) {
-                console.log(response);
                 if (response) {
                     location.reload();
                 }
