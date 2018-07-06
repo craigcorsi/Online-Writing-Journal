@@ -58,11 +58,14 @@
 
 <script>
   var UserId = {{ UserId }};
+  console.log(UserId);
   $(document).ready(function () {
+    console.log(UserId);
     $.ajax({
       method: 'GET',
       url: `/currentuser/${UserId}`
     }).then(function (response) {
+      console.log("The current user is...", response.username);
       $('#js-username-goes-here-1').text(response.username);
     });
 
@@ -71,13 +74,22 @@
       url: '/books',
       data: {}
     }).then(function (response) {
+      console.log(response)
       for (var i = 0; i < response.length; i++) {
-        var bookListing = $('<div>');
-        bookListing.append(`<p><span class="label">Book Name:</span>${response[i][0]}</p>`);
-        bookListing.append(`<button data-id="${response[i][1]}" class="jsClass-delete-book">Delete Book</button>`);
-        var editLink = $('<a>').addClass("jsClass-edit-book").text("Edit this Book");
-        editLink.attr('href', `/edit/${UserId}/${response[i][1]}/`);
-        bookListing.append(editLink).append(`<br><br>`);
+        var bookListing = $('<div class="book-card">');
+        bookListing.append(`<div class="book-spine">${response[i][0]}</div>`);
+
+        // bookListing.append(`<button data-id="${response[i][1]}" class="jsClass-delete-book">Delete Book</button>`);
+        // var editLink = $('<a>').addClass("jsClass-edit-book").text("Edit this Book");
+        // editLink.attr('href', `/edit/${UserId}/${response[i][1]}/`);
+        // bookListing.append(editLink);
+        // $('#js-place-books-here').append(bookListing);
+
+        var editLink = (`<a href="/edit/${UserId}/${response[i][1]}/" class="jsClass-edit-book btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> Edit Book</a> `);
+        bookListing.append(editLink);
+        bookListing.append(`<a href="#" data-id="${response[i][1]}" class="jsClass-delete-book btn btn-secondary"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete Book</a>`);
+
+
         $('#js-place-books-here').append(bookListing);
       }
     });
@@ -85,6 +97,7 @@
     $('body').on('click', '.jsClass-delete-book', function (event) {
       event.preventDefault();
       var title = $(this).data('id');
+      console.log(title);
       // var searchTitle = title.replace(/ /g, "_");
       $.ajax({
         method: 'DELETE',

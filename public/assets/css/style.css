@@ -1,25 +1,31 @@
 /* GLOBAL SELECTORS */
+
 html,
 body {
-    box-sizing: border-box;
-    /* duplicated font-family in case this needs to be part of a SASS template and body font needs to be different than site-title and page-title font */
-    font-family:  monospace, 'Times New Roman', Times, serif;
+  box-sizing: border-box;
+  /* duplicated font-family in case this needs to be part of a SASS template and body font needs to be different than site-title and page-title font */
+  font-family: monospace, 'Times New Roman', Times, serif;
 }
+
 a {
   color: red;
 }
+
 a:hover {
   color: maroon;
   text-decoration: none;
 }
+
 .jumbotron {
   background-color: transparent;
 }
+
 header.header-subpage .jumbotron {
   padding: 1rem 2rem 4rem;
 }
-header{
-  background: url("../images/bg-crumpled-paper.jpg") ;
+
+header {
+  background: url("../images/bg-crumpled-paper.jpg");
   background-color: bisque;
   position: relative;
 }
@@ -27,21 +33,24 @@ header{
 .logout {
   margin-top: 2rem;
 }
+
 .logout form button {
   background-color: bisque;
   padding: .5rem;
   border-radius: .25rem;
 }
 
-
 /* BEGIN STICKY FOOTER */
+
 html {
   position: relative;
   min-height: 100%;
 }
+
 body {
   margin-bottom: 60px;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -52,20 +61,14 @@ body {
   /* Vertically center the text there */
   text-align: center;
 }
+
 /* END STICKY FOOTER */
-
-
 
 .site-title {
   font-family: monospace, 'Times New Roman', Times, serif;
   -webkit-text-stroke: 1px black;
   color: white;
-  text-shadow:
-      3px 3px 0 #000,
-    -1px -1px 0 #000,  
-     1px -1px 0 #000,
-     -1px 1px 0 #000,
-      1px 1px 0 #000;
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .breadcrumb {
@@ -75,30 +78,35 @@ body {
 .page-title {
   font-family: monospace, 'Times New Roman', Times, serif;
   font-size: 3rem;
-  margin-bottom:2rem;
+  margin-bottom: 2rem;
 }
 
 /* JUMBOTRON */
+
 .jumbotron {
   font-family: monospace;
 }
 
 /* BUTTON COLORS */
+
 .btn-primary {
   color: #fff;
   background-color: brown;
   border-color: brown;
 }
+
 .btn-primary:hover {
   color: #fff;
   background-color: darkred;
   border-color: darkred;
 }
+
 .btn-secondary {
   color: #000;
   background-color: bisque;
   border-color: bisque;
 }
+
 .btn-secondary:hover {
   color: #000000;
   background-color: bisque;
@@ -108,12 +116,9 @@ body {
 /* LOGIN */
 
 .typewriter h1 {
-
   overflow: hidden;
-
   /* Ensures the content is not revealed until the animation */
   /* border-right: .15em solid orange; */
-
   /* The typwriter cursor */
   white-space: nowrap;
   /* Keeps the content on a single line */
@@ -150,60 +155,55 @@ body {
 }
 
 /* BOOKS ON DASHBOARD */
+
 .book-container {
   display: flex;
   justify-content: space-between;
   flex-flow: row wrap;
 }
+
 .book-card {
- width: 300px;
+  margin-bottom: 3em;
+  width: 500px;
 }
+
 .book-spine {
   background-color: lightgrey;
   font-size: 1.5em;
+  margin-bottom: .5em;
   padding: .5em;
 }
 
-
 /* *******************************************/
+
 /* TABLET */
+
 /* *******************************************/
-@media (min-width: 768px) and (max-width: 991px) { 
-  .display-4 {
-    
-  }
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .display-4 {}
   .site-title {
-    color:orange;
+    color: orange;
   }
   .page-title {
-    color:orange;
+    color: orange;
   }
- }
-
-
-/* *******************************************/
-/* MOBILE */
-/* *******************************************/
-@media (min-width: 1px) and (max-width: 767px) { 
-  
-  .site-title {
-    color:blue;
-  }
-  .page-title {
-    color:blue;
-  }
-
 }
 
+/* *******************************************/
 
+/* MOBILE */
 
+/* *******************************************/
 
-
-
-
-
-
-
+@media (min-width: 1px) and (max-width: 767px) {
+  .site-title {
+    color: blue;
+  }
+  .page-title {
+    color: blue;
+  }
+}
 
 /*
 
@@ -263,7 +263,6 @@ EDITOR STYLES by Craig Jul-4-18
 .css-edit-chapter-interface-textarea,
 #js-edit-chapter-interface-button-save,
 #js-edit-chapter-interface-button-revert,
-#js-edit-chapter-interface-button-delete
- {
+#js-edit-chapter-interface-button-delete {
   cursor: not-allowed;
 }
