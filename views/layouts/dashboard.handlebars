@@ -17,35 +17,43 @@
 
 <!-- BEGIN CONTENT -->
 <div class="container">
+
+  <!-- BEGIN ADD BOOKS SECTION -->
   <div class="row">
 
-    <!-- BEGIN BOOKS COLUMN -->
+
+    <form id="js-new-book-container" class="form-inline"></form>
+    <div class="col-12 input-group mb-3">
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary" type="button">
+          <i class="fa fa-book" aria-hidden="true"></i>
+          Create New Book
+        </button>
+      </div>
+      <input type="text" class="form-control" placeholder="New Book Title" aria-label="New Book Title" aria-describedby="basic-addon1">
+    </div>
+    </form>
+
+  </div>
+  <!-- END ADD BOOKS SECTION -->
+
+  <!-- BEGIN LIST BOOKS SECTION -->
+  <div class="row">
+
     <div class="col-12">
 
-
-      <div id="js-place-books-here">
-
-      </div>
-
-
-      <div id="js-new-book-container">
-        <input id="js-new-book-input">
-        <button id="js-new-book-submit">Create New Book!</button>
+      <!-- BOOKS INSERTED FROM DATABASE -->
+      <div id="js-place-books-here" class="book-container">
       </div>
 
     </div>
-    <!-- END BOOKS COLUMN -->
-
-
 
   </div>
+  <!-- END LIST BOOKS SECTION -->
+
 </div>
-
-
+</div>
 <!-- END CONTENT -->
-
-
-
 
 
 <script>
