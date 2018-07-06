@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-12">
       <h2 class="page-title">
-        Welcome to your Dashboard,
+        Welcome to your dashboard
         <span id="js-username-goes-here-1"></span>
       </h2>
     </div>
@@ -21,7 +21,6 @@
   <!-- BEGIN ADD BOOKS SECTION -->
   <div class="row">
 
-
     <form id="js-new-book-container" class="form-inline"></form>
     <div class="col-12 input-group mb-3">
       <div class="input-group-prepend">
@@ -30,7 +29,7 @@
           Create New Book
         </button>
       </div>
-      <input type="text" id='js-new-book-input' class="form-control" placeholder="New Book Title" aria-label="New Book Title" aria-describedby="basic-addon1">
+      <input type="text" id='js-new-book-input' class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
     </div>
     </form>
 
@@ -77,7 +76,7 @@
       console.log(response)
       for (var i = 0; i < response.length; i++) {
         var bookListing = $('<div class="book-card">');
-        bookListing.append(`<div class="book-spine">${response[i][0]}</div>`);
+        bookListing.append(`<div class="book-spine"><div class="book-title">${response[i][0]}</div></div>`);
 
         // bookListing.append(`<button data-id="${response[i][1]}" class="jsClass-delete-book">Delete Book</button>`);
         // var editLink = $('<a>').addClass("jsClass-edit-book").text("Edit this Book");

@@ -1,9 +1,8 @@
-/* GLOBAL SELECTORS */
+/* GLOBAL PAGE ELEMENTS */
 
 html,
 body {
   box-sizing: border-box;
-  /* duplicated font-family in case this needs to be part of a SASS template and body font needs to be different than site-title and page-title font */
   font-family: monospace, 'Times New Roman', Times, serif;
 }
 
@@ -15,6 +14,8 @@ a:hover {
   color: maroon;
   text-decoration: none;
 }
+
+/* HEADER */
 
 .jumbotron {
   background-color: transparent;
@@ -40,8 +41,82 @@ header {
   border-radius: .25rem;
 }
 
-/* BEGIN STICKY FOOTER */
+/* FORM ELEMENTS */
 
+.btn-primary {
+  color: #fff;
+  background-color: brown;
+  border-color: brown;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: darkred;
+  border-color: darkred;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: darkred;
+  border-color: darkred;
+}
+
+.btn-primary.focus,
+.btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(165, 42, 42, .5);
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+  color: #fff;
+  background-color: brown;
+  border-color: brown;
+}
+
+.btn-secondary {
+  color: #000;
+  background-color: bisque;
+  border-color: bisque;
+}
+
+.btn-secondary:hover {
+  color: #000000;
+  background-color: tan;
+  border-color: tan;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active,
+.btn-secondary:not(:disabled):not(.disabled):active,
+.show>.btn-secondary.dropdown-toggle {
+  color: #000000;
+  background-color: tan;
+  border-color: tan;
+}
+
+.btn-secondary.focus,
+.btn-secondary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 228, 196, .5);
+}
+
+.btn-secondary.disabled,
+.btn-secondary:disabled {
+  color: #000;
+  background-color: bisque;
+  border-color: bisque;
+}
+
+textarea.focus,
+textarea:focus {
+  box-shadow: 0 0 0 0.2rem rgba(165, 42, 42, .5);
+}
+
+.hidden-input {
+  margin-bottom: 1em;
+}
+
+/* BEGIN STICKY FOOTER */
 html {
   position: relative;
   min-height: 100%;
@@ -64,97 +139,22 @@ body {
 
 /* END STICKY FOOTER */
 
-.site-title {
-  font-family: monospace, 'Times New Roman', Times, serif;
-  -webkit-text-stroke: 1px black;
-  color: white;
-  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-}
+/* 
+CSS FOR UNIQUE PAGES
+*/
 
-.breadcrumb {
-  background-color: bisque;
-}
-
-.page-title {
-  font-family: monospace, 'Times New Roman', Times, serif;
-  font-size: 3rem;
-  margin-bottom: 2rem;
-}
-
-/* JUMBOTRON */
-
-.jumbotron {
-  font-family: monospace;
-}
-
-/* BUTTONS */
-.btn-primary {
-  color: #fff;
-  background-color: brown;
-  border-color: brown;
-}
-.btn-primary:hover {
-  color: #fff;
-  background-color: darkred;
-  border-color: darkred;
-}
-.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
-  color: #fff;
-  background-color: darkred;
-  border-color: darkred;
-}
-.btn-primary.focus, .btn-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(165, 42, 42, .5)
-  ;
-}
-.btn-primary.disabled, .btn-primary:disabled {
-  color: #fff;
-  background-color: brown;
-  border-color: brown;
-}
-.btn-secondary {
-  color: #000;
-  background-color: bisque;
-  border-color: bisque;
-}
-.btn-secondary:hover {
-  color: #000000;
-  background-color: tan;
-  border-color: tan;
-}
-.btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle {
-  color: #000000;
-  background-color: tan;
-  border-color: tan;
-}
-.btn-secondary.focus, .btn-secondary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(255, 228, 196, .5)
-  ;
-}
-.btn-secondary.disabled, .btn-secondary:disabled {
-  color: #000;
-  background-color: bisque;
-  border-color: bisque;
-}
-
-/* JOURNAL ENTRY PAGE */
-.chapter-entry button {
-  margin-bottom:1em;
-}
-
-
-/* LOGIN */
+/* REGISTER/LOGIN PAGE*/
 
 .typewriter h1 {
   overflow: hidden;
   /* Ensures the content is not revealed until the animation */
-  /* border-right: .15em solid orange; */
+  /* border-right: .15rem solid orange; */
   /* The typwriter cursor */
   white-space: nowrap;
   /* Keeps the content on a single line */
   margin: 0 auto;
   /* Gives that scrolling effect as the typing happens */
-  letter-spacing: .15em;
+  letter-spacing: .15rem;
   /* Adjust as needed */
   /* animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
   display: inline-block; */
@@ -184,67 +184,63 @@ body {
   }
 }
 
-/* BOOKS ON DASHBOARD */
+/* DASHBOARD */
+
+.site-title {
+  -webkit-text-stroke: 1px black;
+  color: white;
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.breadcrumb {
+  background-color: bisque;
+}
+
+.page-title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
 .book-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-flow: row wrap;
 }
 
 .book-card {
-  margin-bottom: 3em;
+  margin-bottom: 3rem;
   width: 500px;
 }
 
 .book-spine {
-  background-color: lightgrey;
-  font-size: 1.5em;
-  margin-bottom: .5em;
-  padding: .5em;
+  background-image: url("../images/book-spine.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  font-size: 1.5rem;
+  margin-bottom: .5rem;
+  padding: 0 10% 0 13%;
+  text-align: center;
+  min-height: 5rem;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+
+.book-title {
+  transform: rotate(.5deg);
+  margin: 15% 0 6% 0;
+  line-height: 1.4rem;
 }
 
 /* EDIT PAGE */
+
+.chapter-entry button {
+  margin-bottom: 1rem;
+}
+
 .timestamp {
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
 }
-
-
-/* *******************************************/
-
-/* TABLET */
-
-/* *******************************************/
-
-@media (min-width: 768px) and (max-width: 991px) {
-  .display-4 {}
-  .site-title {
-    color: orange;
-  }
-  .page-title {
-    color: orange;
-  }
-}
-
-/* *******************************************/
-
-/* MOBILE */
-
-/* *******************************************/
-
-@media (min-width: 1px) and (max-width: 767px) {
-  .site-title {
-    color: blue;
-  }
-  .page-title {
-    color: blue;
-  }
-}
-
-/*
-
-EDITOR STYLES by Craig Jul-4-18
-
-*/
 
 .css-list-chapters-here {
   /* padding-top: 10px;
@@ -267,18 +263,21 @@ EDITOR STYLES by Craig Jul-4-18
 } */
 
 .css-chapter-listing {
-  border-top: 1px solid black;
-  text-align: center;
+  /* border-top: 1px solid black;
+  text-align: center; */
+  color: red;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.css-chapter-listing:hover {
+  color: maroon;
+  text-decoration: none;
 }
 
 /* .css-list-chapters-here .css-chapter-listing:last-child {
   border-bottom: 0;
 } */
-
-.css-chapter-listing:hover {
-  background-color: #def;
-  cursor: pointer;
-}
 
 .css-partial-edit-chapter button {
   display: inline-block;
@@ -300,4 +299,67 @@ EDITOR STYLES by Craig Jul-4-18
 #js-edit-chapter-interface-button-revert,
 #js-edit-chapter-interface-button-delete {
   cursor: not-allowed;
+}
+
+/* *******************************************/
+
+/* TABLET */
+
+/* *******************************************/
+
+@media (min-width: 768px) and (max-width: 991px) {
+  /* .display-4 {}
+  .site-title {
+    color: orange;
+  }
+  .page-title {
+    color: orange;
+  } */
+  header.header-subpage .jumbotron {
+    padding: 0rem 0rem 1rem;
+  }
+  .display-4 {
+    font-size: 3rem;
+  }
+  .logout {
+    margin-top: 1rem;
+  }
+  .page-title {
+    font-size: 2rem;
+  }
+}
+
+/* *******************************************/
+
+/* MOBILE */
+
+/* *******************************************/
+
+@media (min-width: 1px) and (max-width: 767px) {
+  /* REGISTER/LOGIN PAGE*/
+  .typewriter h1 {
+    overflow: visible;
+    white-space: normal;
+    margin: auto;
+    letter-spacing: normal;
+    animation: none;
+  }
+
+  header.header-subpage .jumbotron {
+    padding: 0rem 0rem 1rem;
+  }
+  .display-4 {
+    font-size: 2rem;
+  }
+  .logout {
+    margin-top: 1rem;
+  }
+  .page-title {
+    font-size: 1.25rem;
+  }
+  .login-header {
+    border-top: solid gray 1px;
+    margin-top: 1em;
+    padding-top: .5em;
+  }
 }

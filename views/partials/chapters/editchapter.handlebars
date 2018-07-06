@@ -20,7 +20,7 @@
                 </div>
                 <div id="js-edit-chapter-interface-confirm-revert-menu">
                     <p>Type 'REVERT' to confirm reverting to the previous draft.</p>
-                    <input type="text" id="js-edit-chapter-interface-type-revert">
+                    <input type="text" id="js-edit-chapter-interface-type-revert" class="form-control hidden-input">
                     <button type="submit" id="js-edit-chapter-interface-button-confirm-revert" class="btn btn-primary">
                         <i class="fa fa-undo" aria-hidden="true"></i>
                         Revert
@@ -32,7 +32,7 @@
                 </div>
                 <div id="js-edit-chapter-interface-confirm-delete-menu">
                     <p>Type the chapter name to confirm DELETING this chapter.</p>
-                    <input type="text" id="js-edit-chapter-interface-type-chapter-name">
+                    <input type="text" id="js-edit-chapter-interface-type-chapter-name" class="form-control hidden-input">
                     <button type="submit" id="js-edit-chapter-interface-button-confirm-delete" class="btn btn-primary">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                         Delete
@@ -75,7 +75,9 @@
                     'cursor': 'default'
                 }).prop('disabled', false);
 
-                $('#js-edit-chapter-title-display').text(response.chapter_name + " from the book ");
+                $('#js-edit-chapter-title-display').text('"' + response.chapter_name + '"' + ' from the book ');
+                // $('#js-edit-chapter-title-display').text(response.chapter_name + " from the book ");
+
                 $('#js-edit-chapter-interface-textarea').val(response.chapter_body);
                 $('#js-edit-chapter-interface-button-save').data('chapter', response);
                 $('#js-edit-chapter-interface-type-chapter-name').data('title', response.chapter_name);
